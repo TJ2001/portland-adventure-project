@@ -10,7 +10,7 @@ export class Auth {
   // Configure Auth0
   lock = new Auth0Lock('g8hwUYL3gJvBYcmUCVhAhMZT3HaiIKJO', 'callanmcnulty.auth0.com', {});
 
-  userProfile: Object;
+  userProfile: any;
 
   constructor() {
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
