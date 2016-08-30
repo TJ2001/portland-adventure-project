@@ -1,3 +1,25 @@
-h1 {
-  color: blue;
+body {
+  background-image: url("/resources/img/dragon.jpg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-color: black;
+  font-family: 'MedievalSharp', cursive;
+  color: red;
+}
+
+img{
+  height: 40px;
+  width: 60px;
+}
+
+nav{
+  height: 60px;
+  font-size: 30px;
+}
+
+.divider{
+  height: 60px;
+  margin: 0 9px;
+  border-left: 1px solid #f2f2f2;
+  border-right: 1px solid #ffffff;
 }
