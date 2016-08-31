@@ -7,14 +7,20 @@ body {
   color: red;
 }
 
-img{
-  height: 40px;
-  width: 60px;
+#sword{
+  height: 200px;
+  width: 200px;
 }
 
 nav{
   height: 60px;
-  font-size: 30px;
+  background-image: url("/resources/img/flame.gif");
+  background-size: 10%;
+  color: red;
+}
+
+.navbar-inverse .navbar-nav li a {
+  color: white;
 }
 
 .divider{
@@ -22,4 +28,23 @@ nav{
   margin: 0 9px;
   border-left: 1px solid #f2f2f2;
   border-right: 1px solid #ffffff;
+}
+
+#buttons{
+}
+
+#dragon {
+  position: relative;
+  -webkit-animation-name: example; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 10s; /* Chrome, Safari, Opera */
+  -webkit-animation-iteration-count: infinite; /* Chrome, Safari, Opera */
+  animation-name: example;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes example {
+    0%   {left:0px; top:600px;}
+    100% {left:95%; top:-300px;}
 }

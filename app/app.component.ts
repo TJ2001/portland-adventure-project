@@ -22,7 +22,7 @@ import {WeatherService} from './weather.service';
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="*"><img src="/resources/img/sword-icon.png" alt="no img found" /></a>
+          <a class="navbar-brand" href="*"><img id="sword" src="/resources/img/sword-icon.png" alt="no img found" /></a>
 
         </div>
 
@@ -40,11 +40,14 @@ import {WeatherService} from './weather.service';
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
-    <button (click)="addToScore(-5)">Add</button>
-    <button (click)="upload()">Upload</button>
-    <button (click)="download()">Download</button>
-    <button (click)="callingTrail()">CallTrail</button>
-    <button (click)="callingWeather()">CallWeather</button>
+    <div id="buttons" class="pull-right">
+      <button (click)="addToScore(-5)">Add</button>
+      <button (click)="upload()">Upload</button>
+      <button (click)="download()">Download</button>
+      <button (click)="callingTrail()">CallTrail</button>
+      <button (click)="callingWeather()">CallWeather</button>
+    </div>
+
     <router-outlet></router-outlet>
     <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
     `,
