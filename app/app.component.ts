@@ -7,6 +7,7 @@ import {FirebaseService} from './firebase.service';
 import {Quest} from './quest.model';
 import {TrailService} from './trail.service';
 import {WeatherService} from './weather.service';
+import {FoursquareService} from './foursquare.service';
 
 @Component({
   selector: 'my-app',
@@ -46,12 +47,14 @@ import {WeatherService} from './weather.service';
       <button (click)="download()">Download</button>
       <button (click)="callingTrail()">CallTrail</button>
       <button (click)="callingWeather()">CallWeather</button>
+      <button (click)="callingFoursquare()">CallFoursquare</button>
+
     </div>
 
     <router-outlet></router-outlet>
     <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
     `,
-  providers: [ Auth , FirebaseService , TrailService, WeatherService ],
+  providers: [ Auth , FirebaseService , TrailService, WeatherService, FoursquareService ],
   directives: [ ROUTER_DIRECTIVES ]
 })
 @RouteConfig([
@@ -60,7 +63,7 @@ import {WeatherService} from './weather.service';
 export class AppComponent {
   response: string;
 
-  constructor(private _firebaseService: FirebaseService, private auth: Auth, private authHttp: AuthHttp, private TrailService: TrailService, private WeatherService: WeatherService) {}
+  constructor(private _firebaseService: FirebaseService, private auth: Auth, private authHttp: AuthHttp, private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService) {}
 
   callingTrail(){
     this.TrailService.getTrail()
@@ -72,6 +75,14 @@ export class AppComponent {
 
   callingWeather(){
     this.WeatherService.getWeather()
+    .subscribe(
+      data => console.log(JSON.stringify(data)),
+      error => console.log(error)
+    );
+  }
+
+  callingFoursquare(){
+    this.FoursquareService.getFoursquare()
     .subscribe(
       data => console.log(JSON.stringify(data)),
       error => console.log(error)
