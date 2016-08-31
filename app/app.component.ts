@@ -77,13 +77,13 @@ export class AppComponent {
   constructor(private _firebaseService: FirebaseService, private auth: Auth, private authHttp: AuthHttp, private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService) {}
 
 
-  callingTrail(){
-    this.TrailService.getTrail()
-    .subscribe(
-      data => {console.log(data); this.description =  data.places[0].description;},
-      error => console.log(error)
-    );
-  }
+  // callingTrail(){
+  //   this.TrailService.getTrail()
+  //   .subscribe(
+  //     data => {console.log(data); this.description =  data.places[0].description;},
+  //     error => console.log(error)
+  //   );
+  // }
 
   callingWeather(){
     this.WeatherService.getWeather()
