@@ -5,10 +5,12 @@ import {ROUTER_PROVIDERS} from 'angular2/router';
 import {HTTP_PROVIDERS, Http} from 'angular2/http';
 import {AuthHttp, AuthConfig, JwtHelper} from "angular2-jwt";
 import {Auth} from "./auth.service";
+import {CurrentQuestService} from "./current-quest.service";
 
 bootstrap(AppComponent, [
     HTTP_PROVIDERS,
     ROUTER_PROVIDERS,
+    CurrentQuestService,
     provide(AuthHttp, {
         useFactory: (http) => {
             return new AuthHttp(new AuthConfig(), http);

@@ -6,6 +6,9 @@ import {ProfileComponent} from './profile.component';
 import {FirebaseService} from './firebase.service';
 import {Quest} from './quest.model';
 import {TrailService} from './trail.service';
+import {CurrentQuestService} from './current-quest.service';
+import {InputFormComponent} from './inputs.component';
+import {OutputComponent} from './outputs.component';
 
 
 @Component({
@@ -44,34 +47,32 @@ import {TrailService} from './trail.service';
     <button (click)="upload()">Upload</button>
     <button (click)="download()">Download</button>
     <button (click)="callingTrail()">CallTrail</button>
+    <button [routerLink]="['Oracle']">Oracle</button>
     <router-outlet></router-outlet>
+
     `,
-  providers: [ Auth , FirebaseService , TrailService ],
+  providers: [ Auth , FirebaseService , TrailService, CurrentQuestService ],
   directives: [ ROUTER_DIRECTIVES ]
 })
 @RouteConfig([
-  {path: "/profile", name: "Profile", component: ProfileComponent}
+  {path: "/profile", name: "Profile", component: ProfileComponent},
+  {path: "/oracle", name: "Oracle", component: InputFormComponent},
+  {path: "/quest-map", name: "Quest-Map", component: OutputComponent}
 ])
+
 export class AppComponent {
-  response: string;
 
   constructor(private _firebaseService: FirebaseService, private auth: Auth, private authHttp: AuthHttp, private TrailService: TrailService) {}
 
-  callingTrail(){
-    this.TrailService.getTrail()
-    .subscribe(
-      data => console.log(JSON.stringify(data)),
-      error => console.log(error)
-    );
-  }
 
-  upload(){
-    this._firebaseService.setQuest (new Quest("Destiny", "Adventure", "Amusement Park", 97006))
-      .subscribe(
-        quest => this.response = JSON.stringify(quest),
-        error => console.log(error)
-      );
-  }
+
+  // upload(){
+  //   this._firebaseService.setQuest (new Quest()
+  //     .subscribe(
+  //       quest => this.response = JSON.stringify(quest),
+  //       error => console.log(error)
+  //     );
+  // }
 
   download(){
     this._firebaseService.getQuest()

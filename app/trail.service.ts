@@ -9,12 +9,16 @@ export class TrailService {
 
 	constructor(private http: Http) {}
 
-	getTrail() {
+	getTrail(city, state, country, activity) {
+		city = city.replace(" ", "+");
+		state = state.replace(" ", "+");
+		country = country.replace(" ", "+");
+    activity = activity.replace(" ", "+");
 		var headers = new Headers();
 		headers.append("X-Mashape-Key","KnXEBxjwxVmsh2RwuCjMpCrEffF2p1F7PLmjsnJxiiOAtyeSlf");
 		headers.append("Accept","text/plain");
 		var options = new RequestOptions({headers: headers});
-    return this.http.get("https://trailapi-trailapi.p.mashape.com/?lat=34.1&limit=25&lon=-105.2&radius=50", options)
+    return this.http.get("https://trailapi-trailapi.p.mashape.com/?q[activities_activity_type_name_eq]=" + activity + "&q[city_cont]=" + city + "&q[country_cont]=" + country + "&q[state_cont]=" + state, options)
       .map(response => response.json());
     }
   }

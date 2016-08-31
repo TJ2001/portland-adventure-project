@@ -1,5 +1,5 @@
 export class Quest {
-  constructor(public name: string, public type: string, public destination: string, public zip: number) {
+  constructor(public city: string, public state: string, public country: string, public activity: string) {
 
   }
 }
