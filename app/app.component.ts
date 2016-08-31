@@ -6,7 +6,7 @@ import {ProfileComponent} from './profile.component';
 import {FirebaseService} from './firebase.service';
 import {Quest} from './quest.model';
 import {TrailService} from './trail.service';
-
+import {WeatherService} from './weather.service';
 
 @Component({
   selector: 'my-app',
@@ -44,9 +44,11 @@ import {TrailService} from './trail.service';
     <button (click)="upload()">Upload</button>
     <button (click)="download()">Download</button>
     <button (click)="callingTrail()">CallTrail</button>
+    <button (click)="callingWeather()">CallWeather</button>
     <router-outlet></router-outlet>
+    <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
     `,
-  providers: [ Auth , FirebaseService , TrailService ],
+  providers: [ Auth , FirebaseService , TrailService, WeatherService ],
   directives: [ ROUTER_DIRECTIVES ]
 })
 @RouteConfig([
@@ -55,10 +57,18 @@ import {TrailService} from './trail.service';
 export class AppComponent {
   response: string;
 
-  constructor(private _firebaseService: FirebaseService, private auth: Auth, private authHttp: AuthHttp, private TrailService: TrailService) {}
+  constructor(private _firebaseService: FirebaseService, private auth: Auth, private authHttp: AuthHttp, private TrailService: TrailService, private WeatherService: WeatherService) {}
 
   callingTrail(){
     this.TrailService.getTrail()
+    .subscribe(
+      data => console.log(JSON.stringify(data)),
+      error => console.log(error)
+    );
+  }
+
+  callingWeather(){
+    this.WeatherService.getWeather()
     .subscribe(
       data => console.log(JSON.stringify(data)),
       error => console.log(error)
