@@ -5,6 +5,8 @@ import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {ProfileComponent} from './profile.component';
 import {FirebaseService} from './firebase.service';
 import {Quest} from './quest.model';
+import {TrailService} from './trail.service';
+
 
 @Component({
   selector: 'my-app',
@@ -41,9 +43,10 @@ import {Quest} from './quest.model';
     <button (click)="addToScore(-5)">Add</button>
     <button (click)="upload()">Upload</button>
     <button (click)="download()">Download</button>
+    <button (click)="callingTrail()">CallTrail</button>
     <router-outlet></router-outlet>
     `,
-  providers: [ Auth , FirebaseService ],
+  providers: [ Auth , FirebaseService , TrailService ],
   directives: [ ROUTER_DIRECTIVES ]
 })
 @RouteConfig([
@@ -52,7 +55,15 @@ import {Quest} from './quest.model';
 export class AppComponent {
   response: string;
 
-  constructor(private _firebaseService: FirebaseService, private auth: Auth, private authHttp: AuthHttp) {}
+  constructor(private _firebaseService: FirebaseService, private auth: Auth, private authHttp: AuthHttp, private TrailService: TrailService) {}
+
+  callingTrail(){
+    this.TrailService.getTrail()
+    .subscribe(
+      data => console.log(JSON.stringify(data)),
+      error => console.log(error)
+    );
+  }
 
   upload(){
     this._firebaseService.setQuest (new Quest("Destiny", "Adventure", "Amusement Park", 97006))
