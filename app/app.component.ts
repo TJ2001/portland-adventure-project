@@ -2,7 +2,7 @@ import { Component } from 'angular2/core';
 import { Auth } from './auth.service';
 import { AuthHttp } from 'angular2-jwt';
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
-
+import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
 import {FirebaseService} from './firebase.service';
 import {CurrentQuestService} from './current-quest.service';
 import {TrailService} from './trail.service';
@@ -54,12 +54,14 @@ import {InputFormComponent} from './inputs.component';
       <button (click)="callingWeather()">CallWeather</button>
       <button (click)="callingFoursquare()">CallFoursquare</button>
       <button [routerLink]="['Oracle']">Oracle</button>
+      <sebm-google-map [latitude]="lat" [longitude]="lng">
+		</sebm-google-map>
     </div>
     <router-outlet></router-outlet>
     <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
     `,
   providers: [ Auth , FirebaseService , TrailService, WeatherService, FoursquareService ],
-  directives: [ ROUTER_DIRECTIVES ]
+  directives: [ ROUTER_DIRECTIVES, ANGULAR2_GOOGLE_MAPS_DIRECTIVES ]
 })
 @RouteConfig([
   {path: "/profile", name: "Profile", component: ProfileComponent},
@@ -67,13 +69,26 @@ import {InputFormComponent} from './inputs.component';
 ])
 
 export class AppComponent {
+  lat: number = 45.5;
+  lng: number = -122.6;
+  description: {};
+  response: string;
 
   constructor(private _firebaseService: FirebaseService, private auth: Auth, private authHttp: AuthHttp, private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService) {}
+
+
+  callingTrail(){
+    this.TrailService.getTrail()
+    .subscribe(
+      data => {console.log(data); this.description =  data.places[0].description;},
+      error => console.log(error)
+    );
+  }
 
   callingWeather(){
     this.WeatherService.getWeather()
     .subscribe(
-      data => console.log(JSON.stringify(data)),
+      data => console.log(data),
       error => console.log(error)
     );
   }
@@ -81,7 +96,7 @@ export class AppComponent {
   callingFoursquare(){
     this.FoursquareService.getFoursquare()
     .subscribe(
-      data => console.log(JSON.stringify(data)),
+      data => console.log(data),
       error => console.log(error)
     );
   }

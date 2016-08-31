@@ -29,6 +29,9 @@ nav{
   border-left: 1px solid #f2f2f2;
   border-right: 1px solid #ffffff;
 }
+.sebm-google-map-container {
+     height: 300px;
+   }
 
 #buttons{
 }
