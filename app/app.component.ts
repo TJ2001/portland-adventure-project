@@ -12,7 +12,7 @@ import {FoursquareService} from './foursquare.service';
 import {ProfileComponent} from './profile.component';
 import {Quest} from './quest.model';
 import {InputFormComponent} from './inputs.component';
-
+import {GeocodeService} from './geocode.service';
 
 @Component({
   selector: 'my-app',
@@ -53,14 +53,15 @@ import {InputFormComponent} from './inputs.component';
       <button (click)="callingTrail()">CallTrail</button>
       <button (click)="callingWeather()">CallWeather</button>
       <button (click)="callingFoursquare()">CallFoursquare</button>
+      <button (click)="callingGeocode()">CallGeocode</button>
       <button [routerLink]="['Oracle']">Oracle</button>
-      <sebm-google-map [latitude]="lat" [longitude]="lng">
+      <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
 		</sebm-google-map>
     </div>
     <router-outlet></router-outlet>
     <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
     `,
-  providers: [ Auth , FirebaseService , TrailService, WeatherService, FoursquareService ],
+  providers: [ Auth , FirebaseService , TrailService, WeatherService, FoursquareService, GeocodeService ],
   directives: [ ROUTER_DIRECTIVES, ANGULAR2_GOOGLE_MAPS_DIRECTIVES ]
 })
 @RouteConfig([
@@ -69,12 +70,13 @@ import {InputFormComponent} from './inputs.component';
 ])
 
 export class AppComponent {
-  lat: number = 45.5;
-  lng: number = -122.6;
+  lat: number;
+  lng: number;
+  zoom: number = 10
   description: {};
   response: string;
 
-  constructor(private _firebaseService: FirebaseService, private auth: Auth, private authHttp: AuthHttp, private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService) {}
+  constructor(private _firebaseService: FirebaseService, private auth: Auth, private authHttp: AuthHttp, private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService, private GeocodeService: GeocodeService ) {}
 
 
   // callingTrail(){
@@ -97,6 +99,14 @@ export class AppComponent {
     this.FoursquareService.getFoursquare()
     .subscribe(
       data => console.log(data),
+      error => console.log(error)
+    );
+  }
+
+  callingGeocode(){
+    this.GeocodeService.getGeocode()
+    .subscribe(
+      data => {console.log(data); this.lat =  data.results[0].geometry.location.lat; this.lng =  data.results[0].geometry.location.lng},
       error => console.log(error)
     );
   }
