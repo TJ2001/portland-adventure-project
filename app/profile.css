@@ -1,0 +1,21 @@
+.banner {
+    background-color: pink;
+    width:100%;
+    min-height:189px;
+  }
+
+.main-content {
+  color: white;
+  margin-top: -20px;
+  background-image: url("/resources/img/castle-trine.jpg");
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-color: black;
+}
+
+h2 {
+  text-align: center;
+  padding-top: 20px;
+}

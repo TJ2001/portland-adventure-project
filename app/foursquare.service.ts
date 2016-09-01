@@ -10,9 +10,6 @@ export class FoursquareService {
 	constructor(private http: Http) {}
 
 	getFoursquare(zip, activity) {
-		var headers = new Headers();
-		headers.append("X-Mashape-Key","KnXEBxjwxVmsh2RwuCjMpCrEffF2p1F7PLmjsnJxiiOAtyeSlf");
-		headers.append("Accept","text/plain");
 		var options = new RequestOptions({
 			search: new URLSearchParams("near="+zip+"&section="+activity+"&client_id=AHT1VTGLT0FOCHG2UTAXQE2GX4ZDR1VU1W0X2EWGY5CRZLAN&client_secret=AOC1LDHKLETPD4JCWVBPJDCDRS3QHBWLZLOPZ3OPII3WEPL4&v=20140806&m=foursquare")
 		});

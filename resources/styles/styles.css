@@ -1,53 +1,75 @@
 body {
-  background-image: url("/resources/img/dragon.jpg");
-  background-repeat: no-repeat;
-  background-size: 100%;
-  background-color: black;
   font-family: 'MedievalSharp', cursive;
-  color: red;
+  color: red; }
+
+.banner {
+    background-color: black;
+    width:100%;
+    min-height:189px;
+  }
+
+.main-content {
+  background-image: url("/resources/img/fantasy_landscape.jpg");
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-color: black;
 }
 
-#sword{
+#title{
+  text-align: center;
+  color: white;
+  font-family: arial;
+  font-weight: bold;
+  font-size: 50px;
+  margin-top: -20px;
+  padding-top: 50px;
+}
+
+#oracle{
+  background-color: red;
+}
+
+#sword {
   height: 200px;
-  width: 200px;
-}
+  width: 200px; }
 
-nav{
+nav {
   height: 60px;
   background-image: url("/resources/img/flame.gif");
   background-size: 10%;
-  color: red;
-}
+  color: red; }
 
 .navbar-inverse .navbar-nav li a {
-  color: white;
-}
+  color: white; }
 
-.divider{
+.divider {
   height: 60px;
   margin: 0 9px;
   border-left: 1px solid #f2f2f2;
-  border-right: 1px solid #ffffff;
-}
-.sebm-google-map-container {
-     height: 300px;
-   }
+  border-right: 1px solid #ffffff; }
 
-#buttons{
-}
+.sebm-google-map-container {
+  height: 300px; }
 
 #dragon {
   position: relative;
-  -webkit-animation-name: example; /* Chrome, Safari, Opera */
-  -webkit-animation-duration: 10s; /* Chrome, Safari, Opera */
-  -webkit-animation-iteration-count: infinite; /* Chrome, Safari, Opera */
+  -webkit-animation-name: example;
+  /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 10s;
+  /* Chrome, Safari, Opera */
+  -webkit-animation-iteration-count: infinite;
+  /* Chrome, Safari, Opera */
   animation-name: example;
   animation-duration: 10s;
-  animation-iteration-count: infinite;
-}
+  animation-iteration-count: infinite; }
 
 /* Chrome, Safari, Opera */
 @-webkit-keyframes example {
-    0%   {left:0px; top:600px;}
-    100% {left:95%; top:-300px;}
-}
+  0% {
+    left: 0px;
+    top: 600px; }
+  100% {
+    left: 95%;
+    top: -300px; } }

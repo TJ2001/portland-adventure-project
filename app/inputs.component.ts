@@ -12,7 +12,9 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
   directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES ],
 
   selector: 'edit-quest-details',
+  styleUrls: ['app/input.css'],
   template: `
+  <div class="main-content">
     <div class="margin-top">
     <select class="form-control" name="activity-select" #activity>
       <option value="hiking">hiking</option>
@@ -50,6 +52,7 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
         <input class="form-control" #country>
         </div>
       </div>
+
       <button (click)="addInputs(city, state, country, activity, zip)" class="btn btn-danger btn-lg">Add</button>
     </div>
     <div *ngFor="#place of responseTrails.places">
@@ -59,19 +62,25 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
         <img src="{{activity.thumbnail}}" alt="picture of location">
       </div>
     </div>
+    <div *ngIf="showmap">
+      <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+      </sebm-google-map>
+    </div>
+  </div>
+
     <div *ngFor="#venue of responseFourSquare.response.venues">
       <h4>{{venue.name}}</h4>
     </div>
     <div *ngFor="#day of responseWeather.query.results.channel.item.forecast">
       <h4>{{day.date}}</h4>
     </div>
-    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-  </sebm-google-map>
   `
 })
 
 
 export class InputFormComponent {
+
+  public showmap = false;
   public responseTrails: any;
   public responseFourSquare: any;
   public responseWeather: any;
@@ -97,6 +106,8 @@ export class InputFormComponent {
     city.value = "";
     state.value = "";
     country.value = "";
+
+
     this.WeatherService.getWeather(this.quest.city)
     .subscribe(
       data => this.responseWeather = data,
@@ -109,14 +120,15 @@ export class InputFormComponent {
         error => console.log(error)
       );
     } else {
-    //if(this.quest.activity==="food"||this.quest.activity==="drinks"||this.quest.activity==="coffee"||this.quest.activity==="shops"||this.quest.activity==="arts"||this.quest.activity==="outdoors"||this.quest.activity==="sights") {
       this.FoursquareService.getFoursquare(this.quest.zip, this.quest.activity)
+
       .subscribe(
         data => this.responseFourSquare = data,
         error => console.log(error)
       );
+      this.showmap = true;
     }
-    this.GeocodeService.getGeocode()
+    this.GeocodeService.getGeocode(this.quest.zip)
     .subscribe(
       data => {console.log(data); this.lat =  data.results[0].geometry.location.lat; this.lng =  data.results[0].geometry.location.lng},
       error => console.log(error)

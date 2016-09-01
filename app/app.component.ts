@@ -12,50 +12,54 @@ import {InputFormComponent} from './inputs.component';
 @Component({
   selector: 'my-app',
   template: `
-    <br><br>
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-3" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/"><img id="sword" src="/resources/img/sword-icon.png" alt="no img found" /></a>
+    <div class="banner">
 
+      <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-3" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img id="sword" src="/resources/img/sword-icon.png" alt="no img found" /></a>
+
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="navbar-collapse-3">
+            <ul class="nav navbar-nav" *ngIf="auth.authenticated()">
+              <li>  <a (click)="hideMain()" [routerLink]="['Profile']">{{auth.userProfile.nickname}}: {{auth.userProfile.user_metadata.score}}</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="divider"><a href="#">Quests</a></li>
+              <li><a href="#">ScoreBoard</a></li>
+              <li *ngIf="!auth.authenticated()" class="divider"><a (click)="auth.login()">Login</a></li>
+              <li *ngIf="auth.authenticated()" class="divider"><a (click)="auth.logout()">Logout</a></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+    </div>
+    <div *ngIf="showMain">
+      <div class="main-content">
+        <h1 id="title">Portland Adventure</h1>
+        <div id="buttons">
+          <button class="btn-danger">Romance</button>
+          <button class="btn-primary">Journey</button>
+          <button class="btn-success">Adventure</button>
+          <button (click)="hideMain()" [routerLink]="['Oracle']">Oracle</button>
         </div>
+        <div *ngFor="#quest_id of firebaseKeys">
+          <p (click)="goToQuest(quest_id)">{{responseFirebase[quest_id].activity}} in {{responseFirebase[quest_id].city}}</p>
+        </div>
+        <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
+      </div>
+    </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="navbar-collapse-3">
-          <ul class="nav navbar-nav" *ngIf="auth.authenticated()">
-            <li>  <a [routerLink]="['Profile']">{{auth.userProfile.nickname}}: {{auth.userProfile.user_metadata.score}}</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="divider"><a href="#">Quests</a></li>
-            <li><a href="#">ScoreBoard</a></li>
-            <li *ngIf="!auth.authenticated()" class="divider"><a (click)="auth.login()">Login</a></li>
-            <li *ngIf="auth.authenticated()" class="divider"><a (click)="auth.logout()">Logout</a></li>
-          </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
-    <div id="buttons" class="pull-right">
-      <button (click)="addToScore(-5)">Add</button>
-      <button (click)="upload()">Upload</button>
-      <button (click)="download()">Download</button>
-      <button (click)="callingTrail()">CallTrail</button>
-      <button (click)="callingWeather()">CallWeather</button>
-      <button (click)="callingFoursquare()">CallFoursquare</button>
-      <button (click)="callingGeocode()">CallGeocode</button>
-      <button [routerLink]="['Oracle']">Oracle</button>
-    </div>
-    <div *ngFor="#quest_id of firebaseKeys">
-      <p (click)="goToQuest(quest_id)">{{responseFirebase[quest_id].activity}} in {{responseFirebase[quest_id].city}}</p>
-    </div>
     <router-outlet></router-outlet>
-    <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
     `,
   providers: [ Auth, FirebaseService ],
   directives: [ ROUTER_DIRECTIVES ]
@@ -67,7 +71,7 @@ import {InputFormComponent} from './inputs.component';
 ])
 
 export class AppComponent {
-
+  public showMain = true;
   responseFirebase: any;
   firebaseKeys: Array<string>;
 
@@ -94,6 +98,7 @@ export class AppComponent {
       }
     });
 
+
     this.authHttp
       .patch('https://' + 'callanmcnulty.auth0.com' + '/api/v2/users/' + this.auth.userProfile.user_id, data, {headers: headers})
       .subscribe(
@@ -105,5 +110,9 @@ export class AppComponent {
         },
         error => alert(error.json().message)
       );
+  }
+  hideMain() {
+    this.showMain = false;
+    console.log("button activated");
   }
 }
