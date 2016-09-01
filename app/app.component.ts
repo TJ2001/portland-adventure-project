@@ -2,17 +2,11 @@ import { Component } from 'angular2/core';
 import { Auth } from './auth.service';
 import { AuthHttp } from 'angular2-jwt';
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
-import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
-import {FirebaseService} from './firebase.service';
-import {CurrentQuestService} from './current-quest.service';
-import {TrailService} from './trail.service';
-import {WeatherService} from './weather.service';
-import {FoursquareService} from './foursquare.service';
+
 
 import {ProfileComponent} from './profile.component';
 import {Quest} from './quest.model';
 import {InputFormComponent} from './inputs.component';
-import {GeocodeService} from './geocode.service';
 
 @Component({
   selector: 'my-app',
@@ -55,14 +49,12 @@ import {GeocodeService} from './geocode.service';
       <button (click)="callingFoursquare()">CallFoursquare</button>
       <button (click)="callingGeocode()">CallGeocode</button>
       <button [routerLink]="['Oracle']">Oracle</button>
-      <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-		</sebm-google-map>
     </div>
     <router-outlet></router-outlet>
     <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
     `,
-  providers: [ Auth , FirebaseService , TrailService, WeatherService, FoursquareService, GeocodeService ],
-  directives: [ ROUTER_DIRECTIVES, ANGULAR2_GOOGLE_MAPS_DIRECTIVES ]
+  providers: [ Auth ],
+  directives: [ ROUTER_DIRECTIVES ]
 })
 @RouteConfig([
   {path: "/profile", name: "Profile", component: ProfileComponent},
@@ -70,13 +62,11 @@ import {GeocodeService} from './geocode.service';
 ])
 
 export class AppComponent {
-  lat: number;
-  lng: number;
-  zoom: number = 10
+
   description: {};
   response: string;
 
-  constructor(private _firebaseService: FirebaseService, private auth: Auth, private authHttp: AuthHttp, private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService, private GeocodeService: GeocodeService ) {}
+  constructor( private auth: Auth, private authHttp: AuthHttp ) {}
 
 
   // callingTrail(){
@@ -87,29 +77,7 @@ export class AppComponent {
   //   );
   // }
 
-  callingWeather(){
-    this.WeatherService.getWeather()
-    .subscribe(
-      data => console.log(data),
-      error => console.log(error)
-    );
-  }
 
-  callingFoursquare(){
-    this.FoursquareService.getFoursquare()
-    .subscribe(
-      data => console.log(data),
-      error => console.log(error)
-    );
-  }
-
-  callingGeocode(){
-    this.GeocodeService.getGeocode()
-    .subscribe(
-      data => {console.log(data); this.lat =  data.results[0].geometry.location.lat; this.lng =  data.results[0].geometry.location.lng},
-      error => console.log(error)
-    );
-  }
 
   // upload(){
   //   this._firebaseService.setQuest()
@@ -119,13 +87,13 @@ export class AppComponent {
   //     );
   // }
 
-  download(){
-    this._firebaseService.getQuest()
-      .subscribe(
-        quest => console.log(quest),
-        error => console.log(error)
-      );
-  }
+  // download(){
+  //   this._firebaseService.getQuest()
+  //     .subscribe(
+  //       quest => console.log(quest),
+  //       error => console.log(error)
+  //     );
+  // }
   addToScore(num) {
     var newScore = this.auth.userProfile.user_metadata.score + num;
     var headers: any = {

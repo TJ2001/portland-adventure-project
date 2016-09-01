@@ -1,11 +1,16 @@
 import { Component } from 'angular2/core';
 import {Quest} from './quest.model';
-import { CurrentQuestService } from './current-quest.service';
 import {TrailService} from './trail.service';
-
+import {WeatherService} from './weather.service';
+import {FoursquareService} from './foursquare.service';
+import {GeocodeService} from './geocode.service';
+import {FirebaseService} from './firebase.service';
+import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
 
 @Component({
-  providers: [TrailService],
+  providers: [ FirebaseService , TrailService, WeatherService, FoursquareService, GeocodeService ],
+  directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES ],
+
   selector: 'edit-quest-details',
   template: `
     <div class="margin-top">
@@ -41,6 +46,8 @@ import {TrailService} from './trail.service';
         <img src="{{activity.thumbnail}}" alt="picture of location">
       </div>
     </div>
+    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+  </sebm-google-map>
   `
 })
 
@@ -48,22 +55,44 @@ import {TrailService} from './trail.service';
 export class InputFormComponent {
   public response: any;
   public quest;
-  constructor(private _currentQuest: CurrentQuestService, private TrailService: TrailService) {
+  lat: number;
+  lng: number;
+  zoom: number = 10
+  constructor(private _firebaseService: FirebaseService,  private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService, private GeocodeService: GeocodeService) {
     this.response = {places: []};
   }
 
   addInputs(city: HTMLInputElement, state: HTMLInputElement, country: HTMLInputElement, activity: HTMLSelectElement) {
     var newQuest = new Quest(city.value, state.value, country.value, activity.value);
     this.quest = newQuest;
-    CurrentQuestService.setQuest(newQuest);
     city.value = "";
     state.value = "";
     country.value = "";
-    console.log(CurrentQuestService.getQuest());
     this.TrailService.getTrail(this.quest.city, this.quest.state, this.quest.country, this.quest.activity)
     .subscribe(
       data => this.response = data,
       error => console.log(error)
     );
-  }
+      this.WeatherService.getWeather()
+      .subscribe(
+        data => console.log(data),
+        error => console.log(error)
+      );
+      this.FoursquareService.getFoursquare()
+      .subscribe(
+        data => console.log(data),
+        error => console.log(error)
+      );
+      this.GeocodeService.getGeocode()
+      .subscribe(
+        data => {console.log(data); this.lat =  data.results[0].geometry.location.lat; this.lng =  data.results[0].geometry.location.lng},
+        error => console.log(error)
+      );
+    }
 }
+
+
+
+
+    //   );
+    // }
