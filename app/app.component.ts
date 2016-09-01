@@ -2,7 +2,7 @@ import { Component } from 'angular2/core';
 import { Auth } from './auth.service';
 import { AuthHttp } from 'angular2-jwt';
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
-
+import { FirebaseService } from './firebase.service';
 
 import {ProfileComponent} from './profile.component';
 import {Quest} from './quest.model';
@@ -53,7 +53,7 @@ import {InputFormComponent} from './inputs.component';
     <router-outlet></router-outlet>
     <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
     `,
-  providers: [ Auth ],
+  providers: [ Auth, FirebaseService ],
   directives: [ ROUTER_DIRECTIVES ]
 })
 @RouteConfig([
@@ -64,36 +64,15 @@ import {InputFormComponent} from './inputs.component';
 export class AppComponent {
 
   description: {};
-  response: string;
+  responseFirebase: any;
 
-  constructor( private auth: Auth, private authHttp: AuthHttp ) {}
-
-
-  // callingTrail(){
-  //   this.TrailService.getTrail()
-  //   .subscribe(
-  //     data => {console.log(data); this.description =  data.places[0].description;},
-  //     error => console.log(error)
-  //   );
-  // }
-
-
-
-  // upload(){
-  //   this._firebaseService.setQuest()
-  //     .subscribe(
-  //       quest => this.response = JSON.stringify(quest),
-  //       error => console.log(error)
-  //     );
-  // }
-
-  // download(){
-  //   this._firebaseService.getQuest()
-  //     .subscribe(
-  //       quest => console.log(quest),
-  //       error => console.log(error)
-  //     );
-  // }
+  constructor( private auth: Auth, private authHttp: AuthHttp, private _firebaseService: FirebaseService ) {
+    this._firebaseService.getAllQuests()
+      .subscribe(
+        quest => console.log(quest),
+        error => console.log(error)
+      );
+  }
   addToScore(num) {
     var newScore = this.auth.userProfile.user_metadata.score + num;
     var headers: any = {

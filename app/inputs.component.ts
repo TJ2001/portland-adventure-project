@@ -88,6 +88,11 @@ export class InputFormComponent {
   addInputs(city: HTMLInputElement, state: HTMLInputElement, country: HTMLInputElement, activity: HTMLSelectElement, zip: HTMLInputElement) {
     var newQuest = new Quest(city.value, state.value, country.value, activity.value, zip.value);
     this.quest = newQuest;
+    this._firebaseService.setQuest(newQuest)
+      .subscribe(
+        quest => console.log(quest),
+        error => console.log(error)
+      );
     zip.value = "";
     city.value = "";
     state.value = "";

@@ -17,8 +17,12 @@ export class FirebaseService {
     return this.http.post('https://portland-adventure.firebaseio.com/quest.json', body);
   }
 
-  getQuest() {
-    return this.http.get('https://portland-adventure.firebaseio.com/quest.json')
+  getQuest(quest_id) {
+    return this.http.get('https://portland-adventure.firebaseio.com/quest/'+quest_id+'.json')
+      .map(response => response.json());
+  }
+  getAllQuests() {
+    return this.http.get('https://portland-adventure.firebaseio.com/quest/.json')
       .map(response => response.json());
   }
 }
