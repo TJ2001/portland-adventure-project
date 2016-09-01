@@ -1,10 +1,11 @@
 import { Component } from 'angular2/core';
 import { Auth } from './auth.service';
 import { AuthHttp } from 'angular2-jwt';
-import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {RouteConfig, ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import { FirebaseService } from './firebase.service';
 
 import {ProfileComponent} from './profile.component';
+import {QuestComponent} from './quest.component';
 import {Quest} from './quest.model';
 import {InputFormComponent} from './inputs.component';
 
@@ -50,6 +51,9 @@ import {InputFormComponent} from './inputs.component';
       <button (click)="callingGeocode()">CallGeocode</button>
       <button [routerLink]="['Oracle']">Oracle</button>
     </div>
+    <div *ngFor="#quest_id of firebaseKeys">
+      <p (click)="goToQuest(quest_id)">{{responseFirebase[quest_id].activity}} in {{responseFirebase[quest_id].city}}</p>
+    </div>
     <router-outlet></router-outlet>
     <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
     `,
@@ -58,20 +62,24 @@ import {InputFormComponent} from './inputs.component';
 })
 @RouteConfig([
   {path: "/profile", name: "Profile", component: ProfileComponent},
-  {path: "/oracle", name: "Oracle", component: InputFormComponent}
+  {path: "/oracle", name: "Oracle", component: InputFormComponent},
+  {path: "/quest:/quest_id", name: "Quest", component: QuestComponent}
 ])
 
 export class AppComponent {
 
-  description: {};
   responseFirebase: any;
+  firebaseKeys: Array<string>;
 
-  constructor( private auth: Auth, private authHttp: AuthHttp, private _firebaseService: FirebaseService ) {
+  constructor( private auth: Auth, private authHttp: AuthHttp, private _firebaseService: FirebaseService, private router: Router ) {
     this._firebaseService.getAllQuests()
       .subscribe(
-        quest => console.log(quest),
+        data => {this.responseFirebase = data, this.firebaseKeys = Object.keys(data)},
         error => console.log(error)
       );
+  }
+  goToQuest(id) {
+    this.router.navigate( ['Quest', { quest_id: id }] );
   }
   addToScore(num) {
     var newScore = this.auth.userProfile.user_metadata.score + num;
