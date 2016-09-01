@@ -30,7 +30,7 @@ import {InputFormComponent} from './inputs.component';
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="navbar-collapse-3">
             <ul class="nav navbar-nav" *ngIf="auth.authenticated()">
-              <li>  <a [routerLink]="['Profile']">{{auth.userProfile.nickname}}: {{auth.userProfile.user_metadata.score}}</a></li>
+              <li>  <a (click)="hideMain()" [routerLink]="['Profile']">{{auth.userProfile.nickname}}: {{auth.userProfile.user_metadata.score}}</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="divider"><a href="#">Quests</a></li>
@@ -46,6 +46,9 @@ import {InputFormComponent} from './inputs.component';
       <div class="main-content">
         <h1 id="title">Portland Adventure</h1>
         <div id="buttons">
+          <button class="btn-danger">Romance</button>
+          <button class="btn-primary">Journey</button>
+          <button class="btn-success">Adventure</button>
           <button (click)="hideMain()" [routerLink]="['Oracle']">Oracle</button>
         </div>
         <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
