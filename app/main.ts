@@ -6,8 +6,10 @@ import {HTTP_PROVIDERS, Http} from 'angular2/http';
 import {AuthHttp, AuthConfig, JwtHelper} from "angular2-jwt";
 import {Auth} from "./auth.service";
 import {CurrentQuestService} from "./current-quest.service";
+import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS, LazyMapsAPILoaderConfig} from 'angular2-google-maps/core';
 
 bootstrap(AppComponent, [
+    ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     HTTP_PROVIDERS,
     ROUTER_PROVIDERS,
     CurrentQuestService,
@@ -17,6 +19,11 @@ bootstrap(AppComponent, [
         },
         deps: [Http]
     }),
+    provide(LazyMapsAPILoaderConfig, {useFactory: () => {
+    let config = new LazyMapsAPILoaderConfig();
+    config.apiKey = 'AIzaSyAO_tz42tA_D6kG-K3vtGAl4Q_H0s2aYvk';
+    return config;
+  }}),
     Auth,
     JwtHelper
 ]);
