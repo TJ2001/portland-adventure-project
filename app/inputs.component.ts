@@ -12,7 +12,9 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
   directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES ],
 
   selector: 'edit-quest-details',
+  styleUrls: ['app/input.css'],
   template: `
+  <div class="main-content">
     <div class="margin-top">
     <select class="form-control" name="activity-select" #activity>
       <option value="hiking">hiking</option>
@@ -37,7 +39,13 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
         <input class="form-control" #country>
         </div>
       </div>
-      <button (click)="addInputs(city, state, country, activity)" class="btn btn-danger btn-lg">Add</button>
+      <div class="form-group row">
+        <label for="example-text-input" class="col-xs-2 col-form-label">Zip: </label>
+        <div class="col-xs-10">
+        <input class="form-control" #zip>
+        </div>
+      </div>
+      <button (click)="addInputs(city, state, country, activity, zip)" class="btn btn-danger btn-lg">Add</button>
     </div>
     <div *ngFor="#place of response.places">
       <div *ngFor="#activity of place.activities">
@@ -46,14 +54,18 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
         <img src="{{activity.thumbnail}}" alt="picture of location">
       </div>
     </div>
-    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-  </sebm-google-map>
+    <div *ngIf="showmap">
+      <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+      </sebm-google-map>
+    </div>
+  </div>
   `
 })
 
 
 export class InputFormComponent {
   public response: any;
+  public showmap = false;
   public quest;
   lat: number;
   lng: number;
@@ -62,12 +74,13 @@ export class InputFormComponent {
     this.response = {places: []};
   }
 
-  addInputs(city: HTMLInputElement, state: HTMLInputElement, country: HTMLInputElement, activity: HTMLSelectElement) {
-    var newQuest = new Quest(city.value, state.value, country.value, activity.value);
+  addInputs(city: HTMLInputElement, state: HTMLInputElement, country: HTMLInputElement, activity: HTMLSelectElement, zip: HTMLInputElement) {
+    var newQuest = new Quest(city.value, state.value, country.value, activity.value, zip.value);
     this.quest = newQuest;
     city.value = "";
     state.value = "";
     country.value = "";
+    zip.value = "";
     this.TrailService.getTrail(this.quest.city, this.quest.state, this.quest.country, this.quest.activity)
     .subscribe(
       data => this.response = data,
@@ -83,11 +96,12 @@ export class InputFormComponent {
         data => console.log(data),
         error => console.log(error)
       );
-      this.GeocodeService.getGeocode()
+      this.GeocodeService.getGeocode(this.quest.zip)
       .subscribe(
         data => {console.log(data); this.lat =  data.results[0].geometry.location.lat; this.lng =  data.results[0].geometry.location.lng},
         error => console.log(error)
       );
+      this.showmap = true;
     }
 }
 

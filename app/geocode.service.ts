@@ -9,9 +9,9 @@ export class GeocodeService {
 
 	constructor(private http: Http) {}
 
-	getGeocode() {
+	getGeocode(zip) {
     var options = new RequestOptions({
-      search: new URLSearchParams("address=houston,+texas&key=AIzaSyAO_tz42tA_D6kG-K3vtGAl4Q_H0s2aYvk")
+      search: new URLSearchParams("address=" + zip + "&key=AIzaSyAO_tz42tA_D6kG-K3vtGAl4Q_H0s2aYvk")
     });
     return this.http.get("https://maps.googleapis.com/maps/api/geocode/json", options)
       .map(response => response.json());
