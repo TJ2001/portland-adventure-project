@@ -10,14 +10,16 @@
   background-size: cover;
 }
 
-.oracle {
+.oracle-content {
   margin-top: 20%;
   background-color:#cc99ff;
   border: 10px solid #003300;
   padding: 40px 25px 25px 15px;
   font-size: 24px;
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: 10%;
+  margin-right:  10%;
+  min-width: 450px;
+  min-height: 400px;
   color: #003300;
   font-family: 'Baloo Bhaina', cursive;
 }
@@ -27,7 +29,7 @@
 }
 
 .negative-margin{
-  margin-top: -30px;
+  margin-top: -10px;
 }
 
 .circle {
@@ -44,7 +46,12 @@
 
 .narrow {
   margin-left: 17.5%;
-  width: 75%;
+  width: 65%;
   height: 45px;
   font-size: 25px;
+}
+
+.shrink-width {
+  width: 300px;
+  margin-left: 50px;
 }

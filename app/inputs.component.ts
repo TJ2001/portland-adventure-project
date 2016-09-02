@@ -24,7 +24,7 @@ declare var moment: any;
   </div>
   <div class="input-content parallax">
     <div class="container">
-      <div class="oracle">
+      <div class="oracle-content">
         <select class="form-control narrow selectpicker" name="activity-select" data-style="btn-primary" #activity>
           <option value="" disabled selected>Select Your Activity</option>
           <option value="hiking">hiking</option>
@@ -42,31 +42,31 @@ declare var moment: any;
         <div class="form-group row negative-margin">
           <label for="example-text-input" class="col-xs-2 col-form-label">Zip: </label>
           <div class="col-xs-10">
-          <input class="form-control" #zip>
+          <input class="form-control shrink-width" #zip>
           </div>
         </div>
         <div class="form-group row">
           <label for="example-text-input" class="col-xs-2 col-form-label">City: </label>
           <div class="col-xs-10">
-          <input class="form-control" #city>
+          <input class="form-control shrink-width" #city>
           </div>
         </div>
         <div class="form-group row">
           <label for="example-text-input" class="col-xs-2 col-form-label">State: </label>
           <div class="col-xs-10">
-          <input class="form-control" #state>
+          <input class="form-control shrink-width" #state>
           </div>
         </div>
         <div class="form-group row">
           <label for="example-text-input" class="col-xs-2 col-form-label">Country: </label>
           <div class="col-xs-10">
-          <input class="form-control" #country>
+          <input class="form-control shrink-width" #country>
           </div>
         </div>
         <div class="form-group row">
           <label for="example-text-input" class="col-xs-2 col-form-label">Date: </label>
           <div class="col-xs-10">
-          <input type="date" class="form-control" #date>
+          <input type="date" class="form-control shrink-width" #date>
           </div>
         </div>
       </div>
