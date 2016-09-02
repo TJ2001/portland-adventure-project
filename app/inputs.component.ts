@@ -82,9 +82,41 @@ export class InputFormComponent {
   public quest;
   constructor(private auth: Auth, private _firebaseService: FirebaseService, private authHttp: AuthHttp,  private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService, private GeocodeService: GeocodeService, private router: Router) {}
 
-  addInputs(city: HTMLInputElement, state: HTMLInputElement, country: HTMLInputElement, activity: HTMLSelectElement, zip: HTMLInputElement, date: HTMLInputElement) {
-
-    var newScore = this.auth.userProfile.user_metadata.score + 10;
+  addToScore(num) {
+    console.log("add");
+    var newScore = this.auth.userProfile.user_metadata.score + num;
+    this._firebaseService.getLeaderboard()
+      .subscribe (
+        leaderboard => {
+          console.log(leaderboard);
+          var min = Infinity;
+          var toDelete = null;
+          var madeLeaderboard = false;
+          for(var leader of Object.keys(leaderboard)) {
+            if(leaderboard[leader]<min) {
+              min = leaderboard[leader];
+              toDelete = leader;
+            }
+            if(leaderboard[leader]<=newScore) {
+              madeLeaderboard = true;
+              if(leader===this.auth.userProfile.nickname) {
+                toDelete = leader;
+                break;
+              }
+            }
+          }
+          if(madeLeaderboard) {
+            delete leaderboard[toDelete];
+            leaderboard[this.auth.userProfile.nickname] = newScore;
+            this._firebaseService.setLeaderboard(leaderboard)
+              .subscribe(
+                data => console.log(data.json()),
+                error => console.log(error)
+              )
+          }
+        },
+        error => console.log(error)
+      )
     var headers: any = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -96,18 +128,23 @@ export class InputFormComponent {
       }
     });
 
-
     this.authHttp
       .patch('https://' + 'callanmcnulty.auth0.com' + '/api/v2/users/' + this.auth.userProfile.user_id, data, {headers: headers})
       .subscribe(
         response => {
-          //Update profile
+        	//Update profile
           var storage = JSON.parse(localStorage.getItem('profile'));
           storage.user_metadata.score = newScore;
+          localStorage.setItem('profile', JSON.stringify(storage));
           this.auth.userProfile.user_metadata.score = newScore;
         },
         error => alert(error.json().message)
       );
+  }
+
+  addInputs(city: HTMLInputElement, state: HTMLInputElement, country: HTMLInputElement, activity: HTMLSelectElement, zip: HTMLInputElement, date: HTMLInputElement) {
+
+    this.addToScore(50);
 
     var newQuest = new Quest(city.value, state.value, country.value, activity.value, zip.value, moment(date.value).format("DD MMM YYYY"), this.auth.userProfile.email );//
     this.quest = newQuest;
