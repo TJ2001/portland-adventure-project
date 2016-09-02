@@ -26,6 +26,10 @@
     width: 40%;
 }
 
+.post-title:first-letter {
+  text-transform: uppercase;
+}
+
 .negative-top {
   margin-top: -270px;
 }

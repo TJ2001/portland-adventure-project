@@ -52,16 +52,23 @@ import {InputFormComponent} from './inputs.component';
               <div (click)="goToQuest('-KQcBzYiNbb3h2HyorxC')"class="btn-danger col-sm-3 big-button love">
                 <h2>Romance</h2>
               </div>
-              <div class="col-sm-3 big-button journey">
+              <div (click)="goToQuest('-KQfV06ypG5bkId1L6ge')"class="col-sm-3 big-button journey">
                 <h2>Journey</h2>
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-3 big-button adventure">
+              <div (click)="goToQuest('-KQfUTwz9INOYCVTjMxQ')" class="col-sm-3 big-button adventure">
                 <h2>Adventure</h2>
               </div>
-              <div (click)="hideMain()" [routerLink]="['Oracle']" class="col-sm-3 big-button oracle">
-                <h2>Oracle</h2>
+              <div *ngIf="auth.authenticated()">
+                <div (click)="hideMain()" [routerLink]="['Oracle']" class="col-sm-3 big-button oracle">
+                  <h2>Create your own Quest</h2>
+                </div>
+              </div>
+              <div *ngIf="!auth.authenticated()">
+                <div class="col-sm-3 big-button oracle">
+                  <h2>Login to create your own quest!</h2>
+                </div>
               </div>
             </div>
           </div>
