@@ -9,21 +9,41 @@ import { FirebaseService } from './firebase.service';
   <div class="main-content">
     <h2>{{auth.userProfile.nickname}}'s Profile</h2>
     <div class="container">
-      <div class="col-md-6">
+      <div class="col-md-6 user-info">
         <h3>Your Score: {{auth.userProfile.user_metadata.score}}</h3>
         <h3>You have been a member since:</h3>
         <h4 id="date">{{auth.userProfile.created_at}}</h4>
-
+        <h3>You have reached the level of:</h3>
+        <div *ngIf="auth.userProfile.user_metadata.score < 1000">
+          <h3 class="level">Page</h3>
+        </div>
+        <div *ngIf="auth.userProfile.user_metadata.score >= 1000 && auth.userProfile.user_metadata.score <= 2500">
+          <h3 class="level">Squire</h3>
+        </div>
+        <div *ngIf="auth.userProfile.user_metadata.score > 2500 && auth.userProfile.user_metadata.score <= 3500 ">
+          <h3 class="level">Princess</h3>
+        </div>
+        <div *ngIf="auth.userProfile.user_metadata.score > 3500 && auth.userProfile.user_metadata.score < 5000 ">
+          <h3 class="level">Knight</h3>
+        </div>
+        <div *ngIf="auth.userProfile.user_metadata.score >= 5000 && auth.userProfile.user_metadata.score < 7500">
+          <h3 class="level">King</h3>
+          <img class="avatar-img" src="/resources/img/knight-avatars/page.png" alt="page image"/>
+        </div>
+        <div *ngIf="auth.userProfile.user_metadata.score > 7500 && auth.userProfile.user_metadata.score < 10000">
+          <h3 class="level">Queen</h3>
+        </div>
+        <div *ngIf="auth.userProfile.user_metadata.score >= 10000">
+          <h3 class="level">Wizard</h3>
+        </div>
       </div>
       <div class="col-md-6">
-        <h3>hello</h3>
+        <div *ngFor="#quest_id of firebaseKeys">
+
+            <p (click)="goToQuest(quest_id)">{{responseFirebase[quest_id].activity}} in {{responseFirebase[quest_id].city}}</p>
+        </div>
       </div>
     </div>
-    <div *ngFor="#quest_id of firebaseKeys">
-
-        <p (click)="goToQuest(quest_id)">{{responseFirebase[quest_id].activity}} in {{responseFirebase[quest_id].city}}</p>
-      </div>
-
   </div>
 
   `
