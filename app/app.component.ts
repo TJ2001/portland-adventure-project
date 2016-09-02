@@ -118,65 +118,6 @@ export class AppComponent {
   goToQuest(id) {
     this.router.navigate( ['Quest', { quest_id: id }] );
   }
-  addToScore(num) {
-    console.log("add");
-    var newScore = this.auth.userProfile.user_metadata.score + num;
-    this._firebaseService.getLeaderboard()
-      .subscribe (
-        leaderboard => {
-          console.log(leaderboard);
-          var min = Infinity;
-          var toDelete = null;
-          var madeLeaderboard = false;
-          for(var leader of Object.keys(leaderboard)) {
-            if(leaderboard[leader]<min) {
-              min = leaderboard[leader];
-              toDelete = leader;
-            }
-            if(leaderboard[leader]<=newScore) {
-              madeLeaderboard = true;
-              if(leader===this.auth.userProfile.nickname) {
-                toDelete = leader;
-                break;
-              }
-            }
-          }
-          if(madeLeaderboard) {
-            delete leaderboard[toDelete];
-            leaderboard[this.auth.userProfile.nickname] = newScore;
-            this._firebaseService.setLeaderboard(leaderboard)
-              .subscribe(
-                data => console.log(data.json()),
-                error => console.log(error)
-              )
-          }
-        },
-        error => console.log(error)
-      )
-    var headers: any = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    };
-
-    var data: any = JSON.stringify({
-      user_metadata: {
-        score: newScore
-      }
-    });
-
-    this.authHttp
-      .patch('https://' + 'callanmcnulty.auth0.com' + '/api/v2/users/' + this.auth.userProfile.user_id, data, {headers: headers})
-      .subscribe(
-        response => {
-        	//Update profile
-          var storage = JSON.parse(localStorage.getItem('profile'));
-          storage.user_metadata.score = newScore;
-          localStorage.setItem('profile', JSON.stringify(storage));
-          this.auth.userProfile.user_metadata.score = newScore;
-        },
-        error => alert(error.json().message)
-      );
-  }
   hideMain() {
     this.showMain = false;
     console.log("button activated");
