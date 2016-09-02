@@ -75,29 +75,31 @@ export class AppComponent {
   firebaseKeys: Array<string>;
 
   constructor( private auth: Auth, private authHttp: AuthHttp, private _firebaseService: FirebaseService, private router: Router ) {
-    var storedScore = JSON.parse(localStorage.getItem('profile')).user_metadata.score;
-    var headers: any = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    };
-    var data: any = JSON.stringify({
-      user_metadata: {
-        score: storedScore
+    if(localStorage.getItem('profile')) {
+      var storedScore = JSON.parse(localStorage.getItem('profile')).user_metadata.score;
+      var headers: any = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+      var data: any = JSON.stringify({
+        user_metadata: {
+          score: storedScore
+        }
+      });
+      if(this.auth.userProfile.user_metadata.score < storedScore) {
+        this.authHttp
+          .patch('https://' + 'callanmcnulty.auth0.com' + '/api/v2/users/' + this.auth.userProfile.user_id, data, {headers: headers})
+          .subscribe(
+            response => {
+            	//Update profile
+              var storage = JSON.parse(localStorage.getItem('profile'));
+              storage.user_metadata.score = storedScore;
+              localStorage.setItem('profile', JSON.stringify(storage));
+              this.auth.userProfile.user_metadata.score = storedScore;
+            },
+            error => alert(error.json().message)
+          );
       }
-    });
-    if(this.auth.userProfile.user_metadata.score < storedScore) {
-      this.authHttp
-        .patch('https://' + 'callanmcnulty.auth0.com' + '/api/v2/users/' + this.auth.userProfile.user_id, data, {headers: headers})
-        .subscribe(
-          response => {
-          	//Update profile
-            var storage = JSON.parse(localStorage.getItem('profile'));
-            storage.user_metadata.score = storedScore;
-            localStorage.setItem('profile', JSON.stringify(storage));
-            this.auth.userProfile.user_metadata.score = storedScore;
-          },
-          error => alert(error.json().message)
-        );
     }
   }
   goToQuest(id) {
