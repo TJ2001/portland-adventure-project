@@ -32,7 +32,9 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
       <h4>{{venue.name}}</h4>
     </div>
     <div *ngFor="#day of responseWeather.query.results.channel.item.forecast">
-      <h4>{{day.date}}</h4>
+      <div *ngIf="day.date === quest.date">
+        <h4>Weather for {{day.date}} goes here</h4>
+      </div>
     </div>
   </div>
   `
@@ -54,9 +56,10 @@ export class QuestComponent {
     this.quest = {actvity:"",city:"",state:"",country:"",zip:""};
     firebaseService.getQuest(this.routeParams.get('quest_id'))
       .subscribe(
-        data => {this.quest = data; this.WeatherService.getWeather(this.quest.city)
+        data => {this.quest = data;
+          this.WeatherService.getWeather(this.quest.city)
         .subscribe(
-          data => this.responseWeather = data,
+          data => {console.log(this.quest.date); console.log(data); this.responseWeather = data},
           error => console.log(error)
         );
         if(this.quest.activity==="hiking"||this.quest.activity==="camping"||this.quest.activity==="mountain biking") {

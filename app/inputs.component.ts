@@ -6,6 +6,7 @@ import {FoursquareService} from './foursquare.service';
 import {GeocodeService} from './geocode.service';
 import {FirebaseService} from './firebase.service';
 import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
+import { Router} from 'angular2/router';
 
 @Component({
   providers: [ FirebaseService , TrailService, WeatherService, FoursquareService, GeocodeService ],
@@ -61,51 +62,22 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
 
       <button (click)="addInputs(city, state, country, activity, zip, date)" class="btn btn-danger btn-lg">Add</button>
     </div>
-    <div *ngFor="#place of responseTrails.places">
-      <div *ngFor="#activity of place.activities">
-        <h4>{{activity.name}}</h4>
-        <h5>{{activity.url}}</h5>
-        <img src="{{activity.thumbnail}}" alt="picture of location">
-      </div>
-    </div>
-    <div *ngIf="showmap">
-      <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-      </sebm-google-map>
-    </div>
   </div>
-
-    <div *ngFor="#venue of responseFourSquare.response.venues">
-      <h4>{{venue.name}}</h4>
-    </div>
-    <div *ngFor="#day of responseWeather.query.results.channel.item.forecast">
-      <h4>{{day.date}}</h4>
-    </div>
   `
 })
 
 
 export class InputFormComponent {
 
-  public showmap = false;
-  public responseTrails: any;
-  public responseFourSquare: any;
-  public responseWeather: any;
   public quest;
-  lat: number;
-  lng: number;
-  zoom: number = 10
-  constructor(private _firebaseService: FirebaseService,  private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService, private GeocodeService: GeocodeService) {
-    this.responseTrails = {places: []};
-    this.responseFourSquare = {response: {venues: []}};
-    this.responseWeather = {query: {results: { channel: { item:{ forecast: []}}}}};
-  }
+  constructor(private _firebaseService: FirebaseService,  private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService, private GeocodeService: GeocodeService, private router: Router) {}
 
   addInputs(city: HTMLInputElement, state: HTMLInputElement, country: HTMLInputElement, activity: HTMLSelectElement, zip: HTMLInputElement, date: HTMLInputElement) {
-    var newQuest = new Quest(city.value, state.value, country.value, activity.value, zip.value, moment(date.value).format("DD MMM YYYY"));
+    var newQuest = new Quest(city.value, state.value, country.value, activity.value, zip.value, date.value);//moment(date.value).format("DD MMM YYYY"));
     this.quest = newQuest;
     this._firebaseService.setQuest(newQuest)
       .subscribe(
-        quest => console.log(quest),
+        response => {this.router.navigate( ['Quest', { quest_id: response.json().name }] );},
         error => console.log(error)
       );
     zip.value = "";
@@ -113,32 +85,5 @@ export class InputFormComponent {
     state.value = "";
     country.value = "";
     date.value = "";
-
-
-    this.WeatherService.getWeather(this.quest.city)
-    .subscribe(
-      data => this.responseWeather = data,
-      error => console.log(error)
-    );
-    if(this.quest.activity==="hiking"||this.quest.activity==="camping"||this.quest.activity==="mountain biking") {
-      this.TrailService.getTrail(this.quest.city, this.quest.state, this.quest.country, this.quest.activity)
-      .subscribe(
-        data => this.responseTrails = data,
-        error => console.log(error)
-      );
-    } else {
-      this.FoursquareService.getFoursquare(this.quest.zip, this.quest.activity)
-
-      .subscribe(
-        data => this.responseFourSquare = data,
-        error => console.log(error)
-      );
-      this.showmap = true;
-    }
-    this.GeocodeService.getGeocode(this.quest.zip)
-    .subscribe(
-      data => {console.log(data); this.lat =  data.results[0].geometry.location.lat; this.lng =  data.results[0].geometry.location.lng},
-      error => console.log(error)
-    );
   }
 }
