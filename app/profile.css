@@ -15,11 +15,48 @@
   background-color: black;
 }
 
+@media only screen and (max-width: 800px) {
+  .main-content {
+        background-image: url('/resources/img/germany-1330112.jpg');
+        margin-bottom: -600px;
+    }
+}
+
 h2 {
   text-align: center;
   padding-top: 20px;
 }
 
-#date {
-  
+.user-info {
+  text-align: center;
+  background: -webkit-radial-gradient(circle, black, transparent);
+  border-radius: 10px;
+  padding: 1em;
+}
+
+.level {
+
+}
+
+.avatar-img {
+  max-height: 150px;
+  width: auto;
+
+}
+
+.user-quests {
+  color: black;
+  background: -webkit-radial-gradient(circle, white, transparent);
+}
+
+#quest-list-title {
+  text-align: center;
+}
+
+#quest-list {
+  margin-left: 10%;
+}
+
+#quest-list:first-letter {
+  text-transform: uppercase;
 }

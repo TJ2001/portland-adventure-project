@@ -73,9 +73,35 @@ declare var moment: any;
 export class InputFormComponent {
 
   public quest;
-  constructor(private auth: Auth, private _firebaseService: FirebaseService,  private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService, private GeocodeService: GeocodeService, private router: Router) {}
+  constructor(private auth: Auth, private _firebaseService: FirebaseService, private authHttp: AuthHttp,  private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService, private GeocodeService: GeocodeService, private router: Router) {}
 
   addInputs(city: HTMLInputElement, state: HTMLInputElement, country: HTMLInputElement, activity: HTMLSelectElement, zip: HTMLInputElement, date: HTMLInputElement) {
+
+    var newScore = this.auth.userProfile.user_metadata.score + 10;
+    var headers: any = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+
+    var data: any = JSON.stringify({
+      user_metadata: {
+        score: newScore
+      }
+    });
+
+
+    this.authHttp
+      .patch('https://' + 'callanmcnulty.auth0.com' + '/api/v2/users/' + this.auth.userProfile.user_id, data, {headers: headers})
+      .subscribe(
+        response => {
+          //Update profile
+          var storage = JSON.parse(localStorage.getItem('profile'));
+          storage.user_metadata.score = newScore;
+          this.auth.userProfile.user_metadata.score = newScore;
+        },
+        error => alert(error.json().message)
+      );
+
     var newQuest = new Quest(city.value, state.value, country.value, activity.value, zip.value, moment(date.value).format("DD MMM YYYY"), this.auth.userProfile.email );//
     this.quest = newQuest;
     this._firebaseService.setQuest(newQuest)

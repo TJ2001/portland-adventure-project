@@ -3,7 +3,6 @@ import { Auth } from './auth.service';
 import { AuthHttp } from 'angular2-jwt';
 import {RouteConfig, ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import { FirebaseService } from './firebase.service';
-
 import {ProfileComponent} from './profile.component';
 import {LeaderboardComponent} from './leaderboard.component';
 import {QuestComponent} from './quest.component';
@@ -14,7 +13,6 @@ import {InputFormComponent} from './inputs.component';
   selector: 'my-app',
   template: `
     <div class="banner">
-
       <nav class="navbar navbar-inverse">
         <div class="container-fluid">
           <!-- Brand and toggle get grouped for better mobile display -->
