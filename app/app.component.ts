@@ -60,8 +60,10 @@ import {InputFormComponent} from './inputs.component';
               <div (click)="goToQuest('-KQfUTwz9INOYCVTjMxQ')" class="col-sm-3 big-button adventure">
                 <h2>Adventure</h2>
               </div>
-              <div (click)="hideMain()" [routerLink]="['Oracle']" class="col-sm-3 big-button oracle">
-                <h2>Oracle</h2>
+              <div *ngIf="auth.authenticated()">
+                <div (click)="hideMain()" [routerLink]="['Oracle']" class="col-sm-3 big-button oracle">
+                  <h2>Create your own Quest</h2>
+                </div>
               </div>
             </div>
           </div>
