@@ -5,6 +5,7 @@ import {RouteConfig, ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import { FirebaseService } from './firebase.service';
 
 import {ProfileComponent} from './profile.component';
+import {LeaderboardComponent} from './leaderboard.component';
 import {QuestComponent} from './quest.component';
 import {Quest} from './quest.model';
 import {InputFormComponent} from './inputs.component';
@@ -35,7 +36,7 @@ import {InputFormComponent} from './inputs.component';
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="divider"><a href="#">Quests</a></li>
-              <li><a href="#">ScoreBoard</a></li>
+              <li><a (click)="hideMain()" [routerLink]="['Leaderboard']">ScoreBoard</a></li>
               <li *ngIf="!auth.authenticated()" class="divider"><a (click)="auth.login()">Login</a></li>
               <li *ngIf="auth.authenticated()" class="divider"><a (click)="auth.logout()">Logout</a></li>
             </ul>
@@ -56,7 +57,6 @@ import {InputFormComponent} from './inputs.component';
         <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
       </div>
     </div>
-
     <router-outlet></router-outlet>
     `,
   providers: [ Auth, FirebaseService ],
@@ -65,6 +65,7 @@ import {InputFormComponent} from './inputs.component';
 @RouteConfig([
   {path: "/profile", name: "Profile", component: ProfileComponent},
   {path: "/oracle", name: "Oracle", component: InputFormComponent},
+  {path: "/leaderboard", name: "Leaderboard", component: LeaderboardComponent},
   {path: "/quest:/quest_id", name: "Quest", component: QuestComponent}
 ])
 
@@ -74,12 +75,69 @@ export class AppComponent {
   firebaseKeys: Array<string>;
 
   constructor( private auth: Auth, private authHttp: AuthHttp, private _firebaseService: FirebaseService, private router: Router ) {
+    var storedScore = JSON.parse(localStorage.getItem('profile')).user_metadata.score;
+    var headers: any = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    var data: any = JSON.stringify({
+      user_metadata: {
+        score: storedScore
+      }
+    });
+    if(this.auth.userProfile.user_metadata.score < storedScore) {
+      this.authHttp
+        .patch('https://' + 'callanmcnulty.auth0.com' + '/api/v2/users/' + this.auth.userProfile.user_id, data, {headers: headers})
+        .subscribe(
+          response => {
+          	//Update profile
+            var storage = JSON.parse(localStorage.getItem('profile'));
+            storage.user_metadata.score = storedScore;
+            localStorage.setItem('profile', JSON.stringify(storage));
+            this.auth.userProfile.user_metadata.score = storedScore;
+          },
+          error => alert(error.json().message)
+        );
+    }
   }
   goToQuest(id) {
     this.router.navigate( ['Quest', { quest_id: id }] );
   }
   addToScore(num) {
+    console.log("add");
     var newScore = this.auth.userProfile.user_metadata.score + num;
+    this._firebaseService.getLeaderboard()
+      .subscribe (
+        leaderboard => {
+          console.log(leaderboard);
+          var min = Infinity;
+          var toDelete = null;
+          var madeLeaderboard = false;
+          for(var leader of Object.keys(leaderboard)) {
+            if(leaderboard[leader]<min) {
+              min = leaderboard[leader];
+              toDelete = leader;
+            }
+            if(leaderboard[leader]<=newScore) {
+              madeLeaderboard = true;
+              if(leader===this.auth.userProfile.nickname) {
+                toDelete = leader;
+                break;
+              }
+            }
+          }
+          if(madeLeaderboard) {
+            delete leaderboard[toDelete];
+            leaderboard[this.auth.userProfile.nickname] = newScore;
+            this._firebaseService.setLeaderboard(leaderboard)
+              .subscribe(
+                data => console.log(data.json()),
+                error => console.log(error)
+              )
+          }
+        },
+        error => console.log(error)
+      )
     var headers: any = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -91,7 +149,6 @@ export class AppComponent {
       }
     });
 
-
     this.authHttp
       .patch('https://' + 'callanmcnulty.auth0.com' + '/api/v2/users/' + this.auth.userProfile.user_id, data, {headers: headers})
       .subscribe(
@@ -99,6 +156,7 @@ export class AppComponent {
         	//Update profile
           var storage = JSON.parse(localStorage.getItem('profile'));
           storage.user_metadata.score = newScore;
+          localStorage.setItem('profile', JSON.stringify(storage));
           this.auth.userProfile.user_metadata.score = newScore;
         },
         error => alert(error.json().message)

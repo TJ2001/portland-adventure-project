@@ -1,6 +1,7 @@
 import { Component } from 'angular2/core';
 import { Auth } from './auth.service';
 import { FirebaseService } from './firebase.service';
+import {Router} from 'angular2/router';
 
 @Component({
   styleUrls: ['app/profile.css'],
@@ -20,25 +21,28 @@ import { FirebaseService } from './firebase.service';
       </div>
     </div>
     <div *ngFor="#quest_id of firebaseKeys">
-
-        <p (click)="goToQuest(quest_id)">{{responseFirebase[quest_id].activity}} in {{responseFirebase[quest_id].city}}</p>
+      <div *ngIf="auth.userProfile.email === responseFirebase[quest_id].user_email">
+        <a (click)="goToQuest(quest_id)">{{responseFirebase[quest_id].activity}} in {{responseFirebase[quest_id].city}}</a>
       </div>
-
+    </div>
   </div>
 
   `
 })
 
-  // <div *ngIf="auth.userProfile.email === responseFirebase[quest_id].email">
+  //
 
 export class ProfileComponent {
   responseFirebase: any;
   firebaseKeys: Array<string>;
-  constructor(private auth: Auth, private _firebaseService: FirebaseService) {
+  constructor(private auth: Auth, private _firebaseService: FirebaseService, private router: Router ) {
     this._firebaseService.getAllQuests()
       .subscribe(
         data => {this.responseFirebase = data, this.firebaseKeys = Object.keys(data)},
         error => console.log(error)
       );
+  }
+  goToQuest(id) {
+    this.router.navigate( ['Quest', { quest_id: id }] );
   }
 }
