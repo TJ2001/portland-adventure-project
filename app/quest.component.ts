@@ -13,30 +13,46 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
   directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES ],
   styleUrls: ['app/quest.css'],
   template: `
-  <div class="main-content">
-    <div class="margin-top">
-      <h1>{{quest.activity}} in {{quest.city}}, {{quest.state}} {{quest.country}}</h1>
-      <div *ngFor="#place of responseTrails.places">
-        <div *ngFor="#activity of place.activities">
-          <h4>{{activity.name}}</h4>
-          <h5>{{activity.url}}</h5>
-          <img src="{{activity.thumbnail}}" alt="picture of location">
-        </div>
-      </div>
-      <div *ngIf="showmap">
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
+
+  <div class="quest-content">
+    <div class="post-container">
+      <div class="map" *ngIf="showmap">
         <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
         </sebm-google-map>
       </div>
-    </div>
-    <div *ngFor="#venue of responseFourSquare.response.venues">
-      <h4>{{venue.name}}</h4>
-    </div>
-    <div *ngFor="#day of responseWeather.query.results.channel.item.forecast">
-      <div *ngIf="day.date === quest.date">
-        <h4>Weather for {{day.date}} goes here</h4>
+      <div class="post-content">
+        <h1 class="post-title">{{quest.activity}} in {{quest.city}}, {{quest.state}} {{quest.country}}</h1>
+        <div class="questoutput">
+          <div class="margin-top">
+
+            <div class="container">
+              <div *ngFor="#place of responseTrails.places">
+                <div *ngFor="#activity of place.activities">
+                  <h4>{{activity.name}}</h4>
+                  <h5>{{activity.url}}</h5>
+                  <img src="{{activity.thumbnail}}" alt="picture of location">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="negative-top">
+            <div *ngFor="#venue of responseFourSquare.response.venues">
+              <h4>{{venue.name}}</h4>
+            </div>
+            <div *ngFor="#day of responseWeather.query.results.channel.item.forecast">
+              <div *ngIf="day.date === quest.date">
+                <h4>Weather for {{day.date}} goes here</h4>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <h4 class="font-color">Powered by </h4>
+  <img src="https://s3.amazonaws.com/mashape-production-logos/apis/53aa3bcfe4b0a705fcc30dc5_medium" alt="TrailAPI" class="profile-pic logo">
+  <img src="https://ss0.4sqi.net/img/poweredByFoursquare/poweredby-one-color-cdf070cc7ae72b3f482cf2d075a74c8c.png" style="width:220px;padding-top: 7px;" class="footerLogo">
   `
 })
 
