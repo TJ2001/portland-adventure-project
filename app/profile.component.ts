@@ -19,19 +19,19 @@ declare var moment: any;
         <h3>You have been a member since:</h3>
         <h4 id="date">{{auth.userProfile.created_at | dateFormat}}</h4>
         <h3>You have reached the level of:</h3>
-        <div *ngIf="auth.userProfile.user_metadata.score < 1000">
+        <div *ngIf="auth.userProfile.user_metadata.score < 100">
           <img class="avatar-img" src="/resources/img/knight-avatars/page.png" alt="page image"/>
           <h3 class="level">Page</h3>
         </div>
-        <div *ngIf="auth.userProfile.user_metadata.score >= 1000 && auth.userProfile.user_metadata.score <= 2500">
+        <div *ngIf="auth.userProfile.user_metadata.score >= 100 && auth.userProfile.user_metadata.score <= 200">
           <img class="avatar-img" src="/resources/img/knight-avatars/squire.png" alt="page image"/>
           <h3 class="level">Squire</h3>
         </div>
-        <div *ngIf="auth.userProfile.user_metadata.score > 2500 && auth.userProfile.user_metadata.score <= 3500 ">
+        <div *ngIf="auth.userProfile.user_metadata.score > 200 && auth.userProfile.user_metadata.score <= 300 ">
           <img class="avatar-img" src="/resources/img/knight-avatars/princess.png" alt="page image"/>
           <h3 class="level">Princess</h3>
         </div>
-        <div *ngIf="auth.userProfile.user_metadata.score > 3500 && auth.userProfile.user_metadata.score < 5000 ">
+        <div *ngIf="auth.userProfile.user_metadata.score > 300 && auth.userProfile.user_metadata.score < 5000 ">
           <img class="avatar-img" src="/resources/img/knight-avatars/knight.png" alt="page image"/>
           <h3 class="level">Knight</h3>
         </div>

@@ -19,6 +19,10 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
     <div class="post-container">
       <div class="map" *ngIf="showmap">
         <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+          <sebm-google-map-marker *ngFor="#venue of responseFourSquare.response.venues" [latitude]="venue.location.lat" [longitude]="venue.location.lng" [label]="'F'">
+          </sebm-google-map-marker>
+          <sebm-google-map-marker *ngFor="#place of responseTrails.places" [latitude]="place.lat" [longitude]="place.lng" [label]="'T'">
+          </sebm-google-map-marker>
         </sebm-google-map>
       </div>
       <div class="post-content">
@@ -64,7 +68,7 @@ export class QuestComponent {
   quest: any;
   lat: number;
   lng: number;
-  zoom: number = 10
+  zoom: number = 12
   constructor(private routeParams: RouteParams, private firebaseService: FirebaseService, private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService, private GeocodeService: GeocodeService ) {
     this.responseTrails = {places: []};
     this.responseFourSquare = {response: {venues: []}};
@@ -105,3 +109,6 @@ export class QuestComponent {
 
 
 }
+
+// <sebm-google-map-marker *ngFor="#venue of responseFourSquare.response.venues" [latitude]="venue.location.lat" [longitude]="venue.location.lng" [label]="'M'">
+// </sebm-google-map-marker>
