@@ -50,8 +50,9 @@ declare var moment: any;
       <div class="col-md-6 user-quests">
         <h3 id="quest-list-title">Your quests:</h3>
         <div *ngFor="#quest_id of firebaseKeys" id="quest-list">
-
+          <div *ngIf="auth.userProfile.email === responseFirebase[quest_id].user_email">
             <p (click)="goToQuest(quest_id)">{{responseFirebase[quest_id].activity}} in {{responseFirebase[quest_id].city}}</p>
+          </div>
         </div>
       </div>
     </div>
