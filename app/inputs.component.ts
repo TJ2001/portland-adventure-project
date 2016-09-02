@@ -52,8 +52,14 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
         <input class="form-control" #country>
         </div>
       </div>
+      <div class="form-group row">
+        <label for="example-text-input" class="col-xs-2 col-form-label">Date: </label>
+        <div class="col-xs-10">
+        <input type="date" class="form-control" #date>
+        </div>
+      </div>
 
-      <button (click)="addInputs(city, state, country, activity, zip)" class="btn btn-danger btn-lg">Add</button>
+      <button (click)="addInputs(city, state, country, activity, zip, date)" class="btn btn-danger btn-lg">Add</button>
     </div>
     <div *ngFor="#place of responseTrails.places">
       <div *ngFor="#activity of place.activities">
@@ -94,8 +100,8 @@ export class InputFormComponent {
     this.responseWeather = {query: {results: { channel: { item:{ forecast: []}}}}};
   }
 
-  addInputs(city: HTMLInputElement, state: HTMLInputElement, country: HTMLInputElement, activity: HTMLSelectElement, zip: HTMLInputElement) {
-    var newQuest = new Quest(city.value, state.value, country.value, activity.value, zip.value);
+  addInputs(city: HTMLInputElement, state: HTMLInputElement, country: HTMLInputElement, activity: HTMLSelectElement, zip: HTMLInputElement, date: HTMLInputElement) {
+    var newQuest = new Quest(city.value, state.value, country.value, activity.value, zip.value, moment(date.value).format("DD MMM YYYY"));
     this.quest = newQuest;
     this._firebaseService.setQuest(newQuest)
       .subscribe(
@@ -106,6 +112,7 @@ export class InputFormComponent {
     city.value = "";
     state.value = "";
     country.value = "";
+    date.value = "";
 
 
     this.WeatherService.getWeather(this.quest.city)
@@ -135,9 +142,3 @@ export class InputFormComponent {
     );
   }
 }
-
-
-
-
-    //   );
-    // }
