@@ -52,9 +52,7 @@ import {InputFormComponent} from './inputs.component';
           <button class="btn-success">Adventure</button>
           <button (click)="hideMain()" [routerLink]="['Oracle']">Oracle</button>
         </div>
-        <div *ngFor="#quest_id of firebaseKeys">
-          <p (click)="goToQuest(quest_id)">{{responseFirebase[quest_id].activity}} in {{responseFirebase[quest_id].city}}</p>
-        </div>
+
         <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
       </div>
     </div>
@@ -76,11 +74,6 @@ export class AppComponent {
   firebaseKeys: Array<string>;
 
   constructor( private auth: Auth, private authHttp: AuthHttp, private _firebaseService: FirebaseService, private router: Router ) {
-    this._firebaseService.getAllQuests()
-      .subscribe(
-        data => {this.responseFirebase = data, this.firebaseKeys = Object.keys(data)},
-        error => console.log(error)
-      );
   }
   goToQuest(id) {
     this.router.navigate( ['Quest', { quest_id: id }] );

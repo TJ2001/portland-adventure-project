@@ -1,5 +1,7 @@
 import { Component } from 'angular2/core';
 import {Quest} from './quest.model';
+import { Auth } from './auth.service';
+import { AuthHttp } from 'angular2-jwt';
 import {TrailService} from './trail.service';
 import {WeatherService} from './weather.service';
 import {FoursquareService} from './foursquare.service';
@@ -9,7 +11,7 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
 import { Router} from 'angular2/router';
 
 @Component({
-  providers: [ FirebaseService , TrailService, WeatherService, FoursquareService, GeocodeService ],
+  providers: [ Auth, FirebaseService , TrailService, WeatherService, FoursquareService, GeocodeService ],
   directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES ],
 
   selector: 'edit-quest-details',
@@ -73,7 +75,7 @@ export class InputFormComponent {
   constructor(private _firebaseService: FirebaseService,  private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService, private GeocodeService: GeocodeService, private router: Router) {}
 
   addInputs(city: HTMLInputElement, state: HTMLInputElement, country: HTMLInputElement, activity: HTMLSelectElement, zip: HTMLInputElement, date: HTMLInputElement) {
-    var newQuest = new Quest(city.value, state.value, country.value, activity.value, zip.value, date.value);//moment(date.value).format("DD MMM YYYY"));
+    var newQuest = new Quest(city.value, state.value, country.value, activity.value, zip.value, moment(date.value).format("DD MMM YYYY"));
     this.quest = newQuest;
     this._firebaseService.setQuest(newQuest)
       .subscribe(
