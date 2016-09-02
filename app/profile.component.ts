@@ -15,30 +15,37 @@ import { FirebaseService } from './firebase.service';
         <h4 id="date">{{auth.userProfile.created_at}}</h4>
         <h3>You have reached the level of:</h3>
         <div *ngIf="auth.userProfile.user_metadata.score < 1000">
+          <img class="avatar-img" src="/resources/img/knight-avatars/page.png" alt="page image"/>
           <h3 class="level">Page</h3>
         </div>
         <div *ngIf="auth.userProfile.user_metadata.score >= 1000 && auth.userProfile.user_metadata.score <= 2500">
+          <img class="avatar-img" src="/resources/img/knight-avatars/squire.png" alt="page image"/>
           <h3 class="level">Squire</h3>
         </div>
         <div *ngIf="auth.userProfile.user_metadata.score > 2500 && auth.userProfile.user_metadata.score <= 3500 ">
+          <img class="avatar-img" src="/resources/img/knight-avatars/princess.png" alt="page image"/>
           <h3 class="level">Princess</h3>
         </div>
         <div *ngIf="auth.userProfile.user_metadata.score > 3500 && auth.userProfile.user_metadata.score < 5000 ">
+          <img class="avatar-img" src="/resources/img/knight-avatars/knight.png" alt="page image"/>
           <h3 class="level">Knight</h3>
         </div>
         <div *ngIf="auth.userProfile.user_metadata.score >= 5000 && auth.userProfile.user_metadata.score < 7500">
+          <img class="avatar-img" src="/resources/img/knight-avatars/king.png" alt="page image"/>
           <h3 class="level">King</h3>
-          <img class="avatar-img" src="/resources/img/knight-avatars/page.png" alt="page image"/>
         </div>
         <div *ngIf="auth.userProfile.user_metadata.score > 7500 && auth.userProfile.user_metadata.score < 10000">
+          <img class="avatar-img" src="/resources/img/knight-avatars/queen.png" alt="page image"/>
           <h3 class="level">Queen</h3>
         </div>
         <div *ngIf="auth.userProfile.user_metadata.score >= 10000">
+          <img class="avatar-img" src="/resources/img/knight-avatars/wizard.png" alt="page image"/>
           <h3 class="level">Wizard</h3>
         </div>
       </div>
-      <div class="col-md-6">
-        <div *ngFor="#quest_id of firebaseKeys">
+      <div class="col-md-6 user-quests">
+        <h3 id="quest-list-title">Your quests:</h3>
+        <div *ngFor="#quest_id of firebaseKeys" id="quest-list">
 
             <p (click)="goToQuest(quest_id)">{{responseFirebase[quest_id].activity}} in {{responseFirebase[quest_id].city}}</p>
         </div>

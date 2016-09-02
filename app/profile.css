@@ -36,3 +36,20 @@ h2 {
   width: auto;
 
 }
+
+.user-quests {
+  color: black;
+  background: -webkit-radial-gradient(circle, white, transparent);
+}
+
+#quest-list-title {
+  text-align: center;
+}
+
+#quest-list {
+  margin-left: 10%;
+}
+
+#quest-list:first-letter {
+  text-transform: uppercase;
+}

@@ -3,7 +3,6 @@ import { Auth } from './auth.service';
 import { AuthHttp } from 'angular2-jwt';
 import {RouteConfig, ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import { FirebaseService } from './firebase.service';
-
 import {ProfileComponent} from './profile.component';
 import {QuestComponent} from './quest.component';
 import {Quest} from './quest.model';
