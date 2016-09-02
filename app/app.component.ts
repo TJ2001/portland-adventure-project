@@ -65,6 +65,11 @@ import {InputFormComponent} from './inputs.component';
                   <h2>Create your own Quest</h2>
                 </div>
               </div>
+              <div *ngIf="!auth.authenticated()">
+                <div class="col-sm-3 big-button oracle">
+                  <h2>Login to create your own quest!</h2>
+                </div>
+              </div>
             </div>
           </div>
         </div>
