@@ -1,5 +1,7 @@
 import { Component } from 'angular2/core';
 import {Quest} from './quest.model';
+import { Auth } from './auth.service';
+import { AuthHttp } from 'angular2-jwt';
 import {TrailService} from './trail.service';
 import {WeatherService} from './weather.service';
 import {FoursquareService} from './foursquare.service';
@@ -8,7 +10,7 @@ import {FirebaseService} from './firebase.service';
 import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
 
 @Component({
-  providers: [ FirebaseService , TrailService, WeatherService, FoursquareService, GeocodeService ],
+  providers: [ Auth, FirebaseService , TrailService, WeatherService, FoursquareService, GeocodeService ],
   directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES ],
 
   selector: 'edit-quest-details',
@@ -94,13 +96,39 @@ export class InputFormComponent {
   lat: number;
   lng: number;
   zoom: number = 10
-  constructor(private _firebaseService: FirebaseService,  private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService, private GeocodeService: GeocodeService) {
+  constructor(private auth: Auth, private authHttp: AuthHttp, private _firebaseService: FirebaseService,  private TrailService: TrailService, private WeatherService: WeatherService, private FoursquareService: FoursquareService, private GeocodeService: GeocodeService) {
     this.responseTrails = {places: []};
     this.responseFourSquare = {response: {venues: []}};
     this.responseWeather = {query: {results: { channel: { item:{ forecast: []}}}}};
   }
 
   addInputs(city: HTMLInputElement, state: HTMLInputElement, country: HTMLInputElement, activity: HTMLSelectElement, zip: HTMLInputElement, date: HTMLInputElement) {
+
+    var newScore = this.auth.userProfile.user_metadata.score + 10;
+    var headers: any = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+
+    var data: any = JSON.stringify({
+      user_metadata: {
+        score: newScore
+      }
+    });
+
+
+    this.authHttp
+      .patch('https://' + 'callanmcnulty.auth0.com' + '/api/v2/users/' + this.auth.userProfile.user_id, data, {headers: headers})
+      .subscribe(
+        response => {
+          //Update profile
+          var storage = JSON.parse(localStorage.getItem('profile'));
+          storage.user_metadata.score = newScore;
+          this.auth.userProfile.user_metadata.score = newScore;
+        },
+        error => alert(error.json().message)
+      );
+
     var newQuest = new Quest(city.value, state.value, country.value, activity.value, zip.value, moment(date.value).format("DD MMM YYYY"));
     this.quest = newQuest;
     this._firebaseService.setQuest(newQuest)
