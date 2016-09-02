@@ -25,12 +25,19 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
           </sebm-google-map-marker>
         </sebm-google-map>
       </div>
+      <div class="display-weather col-sm-3">
+        <div *ngFor="#day of responseWeather.query.results.channel.item.forecast">
+          <div *ngIf="day.date === quest.date">
+            <h4>Weather for {{day.date}}:<br> High: {{day.high}} Low: {{day.low}} Forecast: {{day.text}}</h4>
+          </div>
+        </div>
+      </div>
       <div class="post-content">
         <h1 class="post-title">{{quest.activity}} in {{quest.city}}, {{quest.state}} {{quest.country}}</h1>
         <div class="questoutput">
           <div class="margin-top">
-
-            <div class="container">
+<!--- trail-API -->
+            <div *ngIf="responseTrails.places.length > 0" class="display-trail">
               <div *ngFor="#place of responseTrails.places">
                 <div *ngFor="#activity of place.activities">
                   <h4>{{activity.name}}</h4>
@@ -40,15 +47,16 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
               </div>
             </div>
           </div>
+<!--- trail-API end -->
           <div class="negative-top">
-            <div *ngFor="#venue of responseFourSquare.response.venues">
-              <h4>{{venue.name}}</h4>
-            </div>
-            <div *ngFor="#day of responseWeather.query.results.channel.item.forecast">
-              <div *ngIf="day.date === quest.date">
-                <h4>Weather for {{day.date}} goes here</h4>
+            <div *ngIf="responseFourSquare.response.venues.length > 0" class="display-Four col-sm-4">
+              <div *ngFor="#venue of responseFourSquare.response.venues">
+                <h3>{{venue.name}}</h3>
+                <h4 class="color-change">{{venue.location.address}}</h4>
+                <hr>
               </div>
             </div>
+
           </div>
         </div>
       </div>

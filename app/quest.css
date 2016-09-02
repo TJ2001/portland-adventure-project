@@ -1,21 +1,24 @@
 .map {
-  margin-top: 50px;
+  position: absolute;
+  top: 100px;
+  left: 1200px;
   width: 25%;
   float: right;
-  margin-right: 10%;
   border: 10px solid black;
   display: block;
 }
 
 .post-container {
     margin: 20px 20px 0 0;
-    overflow: auto
+    overflow: auto;
+    position: relative;
 }
 
 .post-content {
     margin-left: 210px
 }
 .post-title {
+    background-image:  url("http://www4.csudh.edu/Assets/Global/backgrounds/background-colleges.jpg");
     font-weight: bold;
     font-size: 200%
     background-color: white;
@@ -33,14 +36,12 @@
 
 .questOutput {
   text-indent: 200px;
-  background-image: url("http://www.wpclipart.com/blanks/parchment/parchment_scroll_background.jpg");
   padding: 80px 25px 25px 15px;
   font-size: 24px;
   color: #003300;
   height: 100%;
   margin-left: -100px;
   width: auto;
-  background-repeat: no-repeat;
   font-family: 'Baloo Bhaina', cursive;
 }
 
@@ -51,6 +52,53 @@
 #white{
   background-color: white;
   opacity: 1;
+}
+
+.display-Four {
+  background-image:  url("http://static1.squarespace.com/static/51e0ad2ee4b0eadeb542cbe5/51e84027e4b0215e33802785/51e84035e4b07f6d67ecf9f2/1374175287383/membership_class_background_widescreen_16X9.jpg");
+  border-style: solid;
+  border-width: medium;
+  text-indent: -10px;
+  color: white;
+  text-shadow: 2px 2px 4px black;
+  max-height: 800px;
+  overflow-y: scroll;
+  position: absolute;
+  top: 200px;
+  left: 300px;
+  max-width: 700;
+}
+
+.display-trail {
+  background-image:  url("http://static1.squarespace.com/static/51e0ad2ee4b0eadeb542cbe5/51e84027e4b0215e33802785/51e84035e4b07f6d67ecf9f2/1374175287383/membership_class_background_widescreen_16X9.jpg");
+  border-style: solid;
+  border-width: medium;
+  text-indent: 20px;
+  color: white;
+  text-shadow: 2px 2px 4px black;
+  max-height: 800px;
+  max-width: 700px;
+  overflow-y: scroll;
+  margin-top: 40px;
+}
+
+.display-trail img {
+  max-width: 300px;
+}
+
+.display-weather {
+  background-image:  url("http://www.freelargeimages.com/wp-content/uploads/2015/06/WHITEBACKGROUND-1024x576.jpg");
+  border-style: solid;
+  border-width: medium;
+  float: right;
+  position: absolute;
+  top: 500px;
+  left: 1200px;
+
+}
+
+.color-change {
+  color: yellow;
 }
 
 .quest-content {
