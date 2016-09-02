@@ -2,9 +2,13 @@ import { Component } from 'angular2/core';
 import { FirebaseService } from './firebase.service';
 
 @Component({
+  styleUrls: ['app/leaderboard.css'],
   template: `
-    <div>
-      <p *ngFor="#leader of firebaseKeys">{{leader}}: {{responseFirebase[leader]}}</p>
+    <div class="main-content">
+      <h2>High Scores:</h2>
+      <div id="board">
+        <p *ngFor="#leader of firebaseKeys">{{leader}}: {{responseFirebase[leader]}}</p>
+      </div>
     </div>
   `
 })
