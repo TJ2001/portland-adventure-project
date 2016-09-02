@@ -32,7 +32,7 @@ declare var moment: any;
           <h3 class="level">Princess</h3>
         </div>
         <div *ngIf="auth.userProfile.user_metadata.score > 300 && auth.userProfile.user_metadata.score < 5000 ">
-          <img class="avatar-img" src="/resources/img/knight-avatars/knight.png" alt="page image"/>
+          <img class="avatar-img" src="/resources/img/knight-avatars/knight-1598216.png" alt="page image"/>
           <h3 class="level">Knight</h3>
         </div>
         <div *ngIf="auth.userProfile.user_metadata.score >= 5000 && auth.userProfile.user_metadata.score < 7500">

@@ -15,7 +15,7 @@ export class TrailService {
 		country = country.replace(" ", "+");
     activity = activity.replace(" ", "+");
 		var headers = new Headers();
-		headers.append("X-Mashape-Key","KnXEBxjwxVmsh2RwuCjMpCrEffF2p1F7PLmjsnJxiiOAtyeSlf");
+		headers.append("X-Mashape-Key","CsNuYRIWnKmsha2A8Sj7FcSKBGgvp1eMa2Yjsn3srnozO5OxLQ");
 		headers.append("Accept","text/plain");
 		var options = new RequestOptions({headers: headers});
     return this.http.get("https://trailapi-trailapi.p.mashape.com/?q[activities_activity_type_name_eq]=" + activity + "&q[city_cont]=" + city + "&q[country_cont]=" + country + "&q[state_cont]=" + state, options)

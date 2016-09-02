@@ -65,6 +65,7 @@ import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'an
   <h4 class="font-color">Powered by </h4>
   <img src="https://s3.amazonaws.com/mashape-production-logos/apis/53aa3bcfe4b0a705fcc30dc5_medium" alt="TrailAPI" class="profile-pic logo">
   <img src="https://ss0.4sqi.net/img/poweredByFoursquare/poweredby-one-color-cdf070cc7ae72b3f482cf2d075a74c8c.png" style="width:220px;padding-top: 7px;" class="footerLogo">
+  <img src="http://www.fitnessblowout.com/bnew/ifitLive/images/powered-by-Google.gif">
   `
 })
 

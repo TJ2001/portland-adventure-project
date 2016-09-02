@@ -44,20 +44,20 @@ import {InputFormComponent} from './inputs.component';
     </div>
     <div *ngIf="showMain">
       <div class="main-content">
-        <h1 id="title">Portland Adventure</h1>
+        <h1 id="title">World Adventure</h1>
 
         <div id="buttons">
           <div class="container" align="center">
             <div class="row">
-              <div (click)="goToQuest('-KQcBzYiNbb3h2HyorxC')"class="btn-danger col-sm-3 big-button love">
+              <div (click)="goToQuest('romance')"class="btn-danger col-sm-3 big-button love">
                 <h2>Romance</h2>
               </div>
-              <div (click)="goToQuest('-KQfV06ypG5bkId1L6ge')"class="col-sm-3 big-button journey">
+              <div (click)="goToQuest('journey')"class="col-sm-3 big-button journey">
                 <h2>Journey</h2>
               </div>
             </div>
             <div class="row">
-              <div (click)="goToQuest('-KQfUTwz9INOYCVTjMxQ')" class="col-sm-3 big-button adventure">
+              <div (click)="goToQuest('adventure')" class="col-sm-3 big-button adventure">
                 <h2>Adventure</h2>
               </div>
               <div *ngIf="auth.authenticated()">
