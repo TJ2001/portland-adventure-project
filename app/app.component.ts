@@ -46,11 +46,26 @@ import {InputFormComponent} from './inputs.component';
     <div *ngIf="showMain">
       <div class="main-content">
         <h1 id="title">Portland Adventure</h1>
+
         <div id="buttons">
-          <button (click)="goToQuest('-KQcBzYiNbb3h2HyorxC')"class="btn-danger">Romance</button>
-          <button class="btn-primary">Journey</button>
-          <button class="btn-success">Adventure</button>
-          <button (click)="hideMain()" [routerLink]="['Oracle']">Oracle</button>
+          <div class="container" align="center">
+            <div class="row">
+              <div (click)="goToQuest('-KQcBzYiNbb3h2HyorxC')"class="btn-danger col-sm-3 big-button love">
+                <h2>Romance</h2>
+              </div>
+              <div class="col-sm-3 big-button journey">
+                <h2>Journey</h2>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-3 big-button adventure">
+                <h2>Adventure</h2>
+              </div>
+              <div (click)="hideMain()" [routerLink]="['Oracle']" class="col-sm-3 big-button oracle">
+                <h2>Oracle</h2>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div><img id="dragon" src="/resources/img/dragon-animated.gif" alt="no img found" /></div>
