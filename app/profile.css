@@ -15,6 +15,13 @@
   background-color: black;
 }
 
+@media only screen and (max-width: 800px) {
+  .main-content {
+        background-image: url('/resources/img/germany-1330112.jpg');
+        margin-bottom: -600px;
+    }
+}
+
 h2 {
   text-align: center;
   padding-top: 20px;
