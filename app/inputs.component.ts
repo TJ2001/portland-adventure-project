@@ -9,6 +9,7 @@ import {GeocodeService} from './geocode.service';
 import {FirebaseService} from './firebase.service';
 import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES,ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
 import { Router} from 'angular2/router';
+declare var moment: any;
 
 @Component({
   providers: [ Auth, FirebaseService , TrailService, WeatherService, FoursquareService, GeocodeService ],
