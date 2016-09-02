@@ -17,6 +17,62 @@ body {
   background-color: black;
 }
 
+.big-button{
+  height: 200px;
+  width: 200px;
+  background-color: purple;
+  margin: 20px;
+}
+
+.container{
+  width: 36%;
+  margin: 0 auto;
+}
+
+.love {
+  background: url('/resources/img/love.png');
+  background-size: 100% 100%;
+}
+/*this is the hover event trigger*/
+.love:hover {
+  cursor:pointer;
+  background:url('/resources/img/love.gif');
+  background-size: 100% 100%;
+}
+
+.journey {
+  background: url('/resources/img/journey.png');
+  background-size: 100% 100%;
+}
+/*this is the hover event trigger*/
+.journey:hover {
+  cursor:pointer;
+  background:url('/resources/img/journey.gif');
+  background-size: 100% 100%;
+}
+
+.adventure {
+  background: url('/resources/img/adventure.png');
+  background-size: 100% 100%;
+}
+/*this is the hover event trigger*/
+.adventure:hover {
+  cursor:pointer;
+  background:url('/resources/img/adventure.gif');
+  background-size: 100% 100%;
+}
+
+.oracle {
+  background: url('/resources/img/oracle.png');
+  background-size: 100% 100%;
+}
+/*this is the hover event trigger*/
+.oracle:hover {
+  cursor:pointer;
+  background:url('/resources/img/oracle.gif');
+  background-size: 100% 100%;
+}
+
 #title{
   text-align: center;
   color: white;
