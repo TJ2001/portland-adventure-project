@@ -18,53 +18,60 @@ declare var moment: any;
   selector: 'edit-quest-details',
   styleUrls: ['app/input.css'],
   template: `
-  <div class="main-content">
-    <div class="margin-top">
-    <select class="form-control" name="activity-select" #activity>
-      <option value="hiking">hiking</option>
-      <option value="mountain biking">mountain biking</option>
-      <option value="camping">camping</option>
-      <option value="food">food</option>
-      <option value="drinks">drinks</option>
-      <option value="coffee">coffee</option>
-      <option value="shops">shops</option>
-      <option value="sights">sights</option>
-      <option value="outdoors">outdoors</option>
-      <option value="arts">arts</option>
-    </select>
-      <div class="form-group row">
-        <label for="example-text-input" class="col-xs-2 col-form-label">Zip Code: </label>
-        <div class="col-xs-10">
-        <input class="form-control" #zip>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-text-input" class="col-xs-2 col-form-label">City: </label>
-        <div class="col-xs-10">
-        <input class="form-control" #city>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-text-input" class="col-xs-2 col-form-label">State: </label>
-        <div class="col-xs-10">
-        <input class="form-control" #state>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-text-input" class="col-xs-2 col-form-label">Country: </label>
-        <div class="col-xs-10">
-        <input class="form-control" #country>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-text-input" class="col-xs-2 col-form-label">Date: </label>
-        <div class="col-xs-10">
-        <input type="date" class="form-control" #date>
-        </div>
-      </div>
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
 
-      <button (click)="addInputs(city, state, country, activity, zip, date)" class="btn btn-danger btn-lg">Add</button>
+  <div class = "margin-top">
+  </div>
+  <div class="input-content parallax">
+    <div class="container">
+      <div class="oracle">
+        <select class="form-control narrow selectpicker" name="activity-select" data-style="btn-primary" #activity>
+          <option value="" disabled selected>Select Your Activity</option>
+          <option value="hiking">hiking</option>
+          <option value="mountain biking">mountain biking</option>
+          <option value="camping">camping</option>
+          <option value="food">food</option>
+          <option value="drinks">drinks</option>
+          <option value="coffee">coffee</option>
+          <option value="shops">shops</option>
+          <option value="sights">sights</option>
+          <option value="outdoors">outdoors</option>
+          <option value="arts">arts</option>
+        </select>
+        <div class="margin-top">
+        <div class="form-group row negative-margin">
+          <label for="example-text-input" class="col-xs-2 col-form-label">Zip: </label>
+          <div class="col-xs-10">
+          <input class="form-control" #zip>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="example-text-input" class="col-xs-2 col-form-label">City: </label>
+          <div class="col-xs-10">
+          <input class="form-control" #city>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="example-text-input" class="col-xs-2 col-form-label">State: </label>
+          <div class="col-xs-10">
+          <input class="form-control" #state>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="example-text-input" class="col-xs-2 col-form-label">Country: </label>
+          <div class="col-xs-10">
+          <input class="form-control" #country>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="example-text-input" class="col-xs-2 col-form-label">Date: </label>
+          <div class="col-xs-10">
+          <input type="date" class="form-control" #date>
+          </div>
+        </div>
+      </div>
     </div>
+    <button (click)="addInputs(city, state, country, activity, zip, date)" class=" btn-lg circle btn-danger">Create Quest</button>
   </div>
   `
 })
