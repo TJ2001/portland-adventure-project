@@ -11,6 +11,7 @@ import { Auth } from './auth.service';
         <h3>Your Score: {{auth.userProfile.user_metadata.score}}</h3>
         <h3>You have been a member since:</h3>
         <h4 id="date">{{auth.userProfile.created_at}}</h4>
+        
       </div>
       <div class="col-md-6">
         <h3>hello</h3>

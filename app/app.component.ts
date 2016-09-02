@@ -47,7 +47,7 @@ import {InputFormComponent} from './inputs.component';
       <div class="main-content">
         <h1 id="title">Portland Adventure</h1>
         <div id="buttons">
-          <button class="btn-danger">Romance</button>
+          <button (click)="goToQuest('-KQcBzYiNbb3h2HyorxC')"class="btn-danger">Romance</button>
           <button class="btn-primary">Journey</button>
           <button class="btn-success">Adventure</button>
           <button (click)="hideMain()" [routerLink]="['Oracle']">Oracle</button>
